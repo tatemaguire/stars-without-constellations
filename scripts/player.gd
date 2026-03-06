@@ -1,25 +1,40 @@
 extends CharacterBody2D
 
-
-@export var SPEED = 300.0
-@export var JUMP_VELOCITY = -400.0
-
+@export var max_speed: float = 80
+@export var max_acceleration: float = 300
+@export var drift: float = 400
+@export var jump_velocity: float = 250
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	# Add gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("Jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("Left", "Right")
-	if direction:
-		velocity.x = direction * SPEED
+	
+	# Get horizontal input
+	var direction = Input.get_axis("Left", "Right")
+	
+	# Flip Sprite based on direction
+	if direction < 0:
+		$AnimatedSprite2D.flip_h = true
+	elif direction > 0:
+		$AnimatedSprite2D.flip_h = false
+	
+	# Physics
+	if direction != 0:
+		# Calculate and apply acceleration
+		var target_velocity = sign(direction) * max_speed
+		var acceleration = abs(direction) * max_acceleration
+		velocity.x = move_toward(velocity.x, target_velocity, acceleration * delta)
+		# Play run anim
+		$AnimatedSprite2D.play("run")
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+		# Apply drift
+		velocity.x = move_toward(velocity.x, 0, drift * delta)
+		$AnimatedSprite2D.play("idle")
+	
+	# Get jump input
+	if Input.is_action_just_pressed("Jump"):
+		if is_on_floor():
+			velocity.y = -jump_velocity
+	
 	move_and_slide()

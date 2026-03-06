@@ -25,7 +25,7 @@ func _set_tile_color(coords: Vector2i, color: TerrainColor):
 # Color Switcher For Debugging
 var current_terrain_color: TerrainColor = TerrainColor.GREEN
 func _input(event: InputEvent):
-	if event.is_action_pressed("Jump"):
+	if event.is_action_pressed("Debug"):
 		var new_col = current_terrain_color + 1
 		if new_col > TerrainColor.PURPLE: 
 			new_col = 1
