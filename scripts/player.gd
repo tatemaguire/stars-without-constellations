@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name PlayerCharacter extends CharacterBody2D
 
 @export var max_speed: float = 80
 @export var max_acceleration: float = 300
@@ -6,6 +6,10 @@ extends CharacterBody2D
 @export var jump_velocity: float = 250
 
 func _physics_process(delta: float) -> void:
+	parse_inputs(delta)
+	move_and_slide()
+
+func parse_inputs(delta: float) -> void:
 	# Add gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -36,5 +40,3 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Jump"):
 		if is_on_floor():
 			velocity.y = -jump_velocity
-	
-	move_and_slide()
