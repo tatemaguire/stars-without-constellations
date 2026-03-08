@@ -16,10 +16,6 @@ run/print_header=false
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
-[autoload]
-
-Global="*uid://dg58jmkpg7x7q"
-
 [display]
 
 window/size/viewport_width=320
@@ -32,6 +28,14 @@ window/stretch/scale_mode="integer"
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[global]
+
+TILE_WIDTH=8
+viewport_size=Vector2i(320, 180)
+viewport_size_T=Vector2(40, 22.5)
+room_size=Vector2i(320, 184)
+room_size_T=Vector2i(40, 23)
 
 [input]
 

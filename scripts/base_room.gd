@@ -4,8 +4,8 @@ extends Node2D
 
 @onready var terrain_layer: TileMapLayer = $Terrain
 
-func _init(color) -> void:
-	_set_terrain_color(color)
+func _init() -> void:
+	_set_terrain_color("GREEN")
 
 func _set_door_states() -> void:
 	pass

@@ -21,8 +21,6 @@ jump_velocity = 240.0
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
-
-[node name="Entrance" parent="Map" unique_id=149712948 instance=ExtResource("1_sugp2")]
-
-[node name="SolidTerrain" parent="Map" unique_id=147515703 instance=ExtResource("5_tbgi4")]
-position = Vector2(-320, 0)
+room_directory = "res://scenes/rooms"
+entrance_scene = ExtResource("1_sugp2")
+backyard_scene = ExtResource("5_tbgi4")
