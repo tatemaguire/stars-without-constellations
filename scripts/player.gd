@@ -40,4 +40,11 @@ func parse_inputs(delta: float) -> void:
 	
 	# Get jump input
 	if is_on_floor() and Input.is_action_just_pressed("Jump"):
-		velocity.y = -jump_velocity
+		if Input.is_action_pressed("Down"):
+			jump_down()
+		else:
+			velocity.y = -jump_velocity
+
+
+func jump_down() -> void:
+	position.y += 1
