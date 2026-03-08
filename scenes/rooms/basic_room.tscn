@@ -1,9 +1,11 @@
 [gd_scene format=4 uid="uid://b6fwk75yla1fw"]
 
+[ext_resource type="Script" uid="uid://birpc4b0jy5cu" path="res://scripts/base_room.gd" id="1_76xem"]
 [ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="1_x2ckl"]
 [ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/terrain_colorer.gd" id="2_76xem"]
 
 [node name="BasicRoom" type="Node2D" unique_id=147515703]
+script = ExtResource("1_76xem")
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=1639016065]
 z_index = -1

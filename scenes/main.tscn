@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://d1hcfdareypq1"]
 
-[ext_resource type="PackedScene" uid="uid://bj38k4ib4vb58" path="res://scenes/rooms/entrance.tscn" id="1_sugp2"]
+[ext_resource type="PackedScene" uid="uid://bj38k4ib4vb58" path="res://scenes/special_rooms/entrance.tscn" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://b0nmp1sr504lp" path="res://scripts/camera.gd" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://byka7pxs4clfd" path="res://scenes/player.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://opv6dabjh2ox" path="res://scripts/map_generator.gd" id="3_tefeu"]
-[ext_resource type="PackedScene" uid="uid://b6fwk75yla1fw" path="res://scenes/rooms/basic_room.tscn" id="4_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://cqnq1wrvbvy3t" path="res://scenes/rooms/basic_room_two.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cobv1nfaakuob" path="res://scenes/special_rooms/solid_terrain.tscn" id="5_tbgi4"]
 
 [node name="main" type="Node2D" unique_id=1027586260]
 
@@ -15,7 +14,7 @@ script = ExtResource("3_jyhfs")
 _player_character = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_sugp2")]
-position = Vector2(368, 136)
+position = Vector2(48, 136)
 max_speed = 80.0
 max_acceleration = 700.0
 jump_velocity = 240.0
@@ -23,19 +22,7 @@ jump_velocity = 240.0
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
 
-[node name="BasicRoomTwo" parent="Map" unique_id=147515703 instance=ExtResource("5_tbgi4")]
-position = Vector2(320, 0)
-
 [node name="Entrance" parent="Map" unique_id=149712948 instance=ExtResource("1_sugp2")]
 
-[node name="BasicRoom2" parent="Map" unique_id=588825825 instance=ExtResource("4_jyhfs")]
-position = Vector2(320, 184)
-
-[node name="BasicRoom3" parent="Map" unique_id=979097771 instance=ExtResource("4_jyhfs")]
-position = Vector2(320, -184)
-
-[node name="BasicRoom4" parent="Map" unique_id=1207989224 instance=ExtResource("4_jyhfs")]
-position = Vector2(640, 0)
-
-[node name="BasicRoom5" parent="Map" unique_id=597256008 instance=ExtResource("4_jyhfs")]
+[node name="SolidTerrain" parent="Map" unique_id=147515703 instance=ExtResource("5_tbgi4")]
 position = Vector2(-320, 0)
