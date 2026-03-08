@@ -7,7 +7,8 @@ enum TerrainColor {GREEN = 1, VIOLET = 2, TEAL = 3, PURPLE = 4}
 func set_terrain_color(color: TerrainColor):
 	var used_cells := get_used_cells()
 	for cell_coords in used_cells:
-		_set_tile_color(cell_coords, color)
+		if get_cell_tile_data(cell_coords).get_custom_data("Color-Changing"):
+			_set_tile_color(cell_coords, color)
 
 ## Sets the tile at [param coords] to the new [param color]
 func _set_tile_color(coords: Vector2i, color: TerrainColor):

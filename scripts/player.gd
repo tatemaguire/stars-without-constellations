@@ -1,13 +1,15 @@
 class_name PlayerCharacter extends CharacterBody2D
 
-@export var max_speed: float = 80
-@export var max_acceleration: float = 300
-@export var drift: float = 400
-@export var jump_velocity: float = 250
+@export var max_speed: float = 100
+@export var max_acceleration: float = 900
+@export var drift: float = 900
+@export var jump_velocity: float = 270
+
 
 func _physics_process(delta: float) -> void:
 	parse_inputs(delta)
 	move_and_slide()
+
 
 func parse_inputs(delta: float) -> void:
 	# Add gravity
@@ -37,6 +39,5 @@ func parse_inputs(delta: float) -> void:
 		$AnimatedSprite2D.play("idle")
 	
 	# Get jump input
-	if Input.is_action_just_pressed("Jump"):
-		if is_on_floor():
-			velocity.y = -jump_velocity
+	if is_on_floor() and Input.is_action_just_pressed("Jump"):
+		velocity.y = -jump_velocity
