@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://byka7pxs4clfd" path="res://scenes/player.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://opv6dabjh2ox" path="res://scripts/map_generator.gd" id="3_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cobv1nfaakuob" path="res://scenes/special_rooms/solid_terrain.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cqnq1wrvbvy3t" path="res://scenes/rooms/floating_platforms.tscn" id="6_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://ed2sbytkkbfs" path="res://scenes/rooms/isolated_corner.tscn" id="7_tipki"]
 
 [node name="main" type="Node2D" unique_id=1027586260]
 
@@ -14,13 +16,19 @@ script = ExtResource("3_jyhfs")
 _player_character = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_sugp2")]
-position = Vector2(48, 136)
+position = Vector2(888, 132)
 max_speed = 80.0
 max_acceleration = 700.0
-jump_velocity = 200.0
+jump_velocity = 190.0
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
 room_directory = "res://scenes/rooms"
 entrance_scene = ExtResource("1_sugp2")
 backyard_scene = ExtResource("5_tbgi4")
+
+[node name="BasicRoomTwo" parent="." unique_id=147515703 instance=ExtResource("6_o6xl0")]
+position = Vector2(320, -184)
+
+[node name="BasicRoomTwo2" parent="." unique_id=26097978 instance=ExtResource("7_tipki")]
+position = Vector2(320, 184)
