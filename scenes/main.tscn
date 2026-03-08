@@ -17,7 +17,7 @@ _player_character = NodePath("../Player")
 position = Vector2(48, 136)
 max_speed = 80.0
 max_acceleration = 700.0
-jump_velocity = 240.0
+jump_velocity = 200.0
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
