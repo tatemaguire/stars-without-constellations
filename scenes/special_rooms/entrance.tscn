@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bj38k4ib4vb58"]
 
 [ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="1_qnli8"]
-[ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/terrain_colorer.gd" id="2_3ov6t"]
+[ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/multicolor_terrain.gd" id="2_3ov6t"]
 
 [node name="Entrance" type="Node2D" unique_id=149712948]
 

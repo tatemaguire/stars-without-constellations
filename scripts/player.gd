@@ -1,9 +1,9 @@
 class_name PlayerCharacter extends CharacterBody2D
 
-@export var max_speed: float = 100
-@export var max_acceleration: float = 900
+@export var max_speed: float = 80
+@export var max_acceleration: float = 700
 @export var drift: float = 900
-@export var jump_velocity: float = 270
+@export var jump_velocity: float = 190
 
 
 func _physics_process(delta: float) -> void:

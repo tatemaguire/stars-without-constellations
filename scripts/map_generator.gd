@@ -16,6 +16,8 @@ extends Node2D
 @export_tool_button("Generate Map") var generate_map_action = generate_map
 ## Clear map in-editor for debugging
 @export_tool_button("Clear Map") var clear_map_action = clear_map
+## Regenerate the map when starting the game (happens in _ready)
+@export var generate_on_ready: bool = true
 ## Maximum room size of the map
 @export var map_size := Vector2i(5, 5)
 ## Length of main_path from entrance to backyard
@@ -35,23 +37,20 @@ var _map_grid: Array[Array]
 ## room_size in pixels
 @onready var room_size: Vector2i = ProjectSettings.get_setting("global/room_size")
 
-
 func _ready() -> void:
-	# Load _basic_room_scenes
-	var room_files = ResourceLoader.list_directory(room_directory)
-	for file in room_files:
-		var room_scene: PackedScene = load(room_directory + "/" + file)
-		_basic_room_scenes.append(room_scene)
 	
-	# Initial generation
-	generate_map()
+	_load_room_scenes()
 	
-	# TODO: Clean up these references
-	# Move player to spawn point
-	var player_spawn: Node2D = get_node("Entrance/PlayerSpawn")
-	assert(player_spawn)
-	var player: PlayerCharacter = get_parent().get_node("Player")
-	player.global_position = player_spawn.global_position
+	if generate_on_ready:
+		generate_map()
+	
+	if not Engine.is_editor_hint():
+		# TODO: Clean up these references
+		# Move player to spawn point
+		var player_spawn: Node2D = get_node("Entrance/PlayerSpawn")
+		assert(player_spawn)
+		var player: PlayerCharacter = get_parent().get_node("Player")
+		player.global_position = player_spawn.global_position
 	
 	
 
@@ -61,79 +60,57 @@ func generate_map() -> void:
 	assert(main_path_length >= map_size.x)
 	
 	# ---------- Generate Map Grid -----------
+	var start_y: int
+	var successful: bool = false
+	# Try 10 times
+	for attempt in range(10):
 	
-	# Initialize map_grid with zeros
-	_map_grid.clear()
-	for i in map_size.x:
-		_map_grid.append([])
-		for j in map_size.y:
-			_map_grid[i].append(0)
+		# Initialize map_grid with zeros
+		_map_grid.clear()
+		for i in map_size.x:
+			_map_grid.append([])
+			for j in map_size.y:
+				_map_grid[i].append(0)
+		
+		# Choose starting room randomly
+		start_y = randi_range(0, map_size.y-1)
+		_map_grid[0][start_y] = main_path_length
+		_current_room = Vector2i(0, start_y)
+		
+		# Generate main path in _map_grid
+		if _create_path(main_path_length - 1):
+			successful = true
+			break
 	
-	# Choose starting room randomly
-	var start_y = randi_range(0, map_size.y-1)
-	_map_grid[0][start_y] = main_path_length
-	_current_room = Vector2i(0, start_y)
-	
-	# Generate main path in _map_grid
-	if not _create_path(main_path_length - 1):
+	if not successful:
 		printerr("Can't generate main path of map")
+		return
 	
 	_print_grid()
 	
 	# ---------- Fill The Scene With Rooms -----------
 	
 	clear_map()
+	_fill_map_from_grid(start_y)
 	
-	# Fill main portion of map
-	for i in range(map_size.x):
-		for j in range(map_size.y):
-			var room: Node2D
-			if _map_grid[i][j] == 0:
-				room = filler_scene.instantiate()
-			else:
-				var random_index := randi_range(0, _basic_room_scenes.size() - 1)
-				room = _basic_room_scenes[random_index].instantiate()
-			# Set room position
-			room.position = Vector2i(i, j) * room_size
-			add_child(room)
-	
-	# Fill side edges of map including entrance and backyard
-	for j in range(map_size.y):
-		# Left edge of the map
-		var room: Node2D
-		if j == start_y:
-			room = entrance_scene.instantiate()
-		else:
-			room = filler_scene.instantiate()
-		room.position = Vector2i(-1, j) * room_size
-		add_child(room)
-		
-		# Right edge of the map
-		room = null
-		if j == _current_room.y:
-			room = backyard_scene.instantiate()
-		else:
-			room = filler_scene.instantiate()
-		room.position = Vector2i(map_size.x, j) * room_size
-		add_child(room)
-		
-	# Fill top and bottom edges
-	for i in range(map_size.x):
-		# Top edge
-		var room: Node2D = filler_scene.instantiate()
-		room.position = Vector2i(i, -1) * room_size
-		add_child(room)
-		
-		# Bottom edge
-		room = filler_scene.instantiate()
-		room.position = Vector2i(i, map_size.y) * room_size
-		add_child(room)
-		
+	# Set basic roms to be violet
+	for room in get_children():
+		if room is BasicRoom:
+			room.set_terrain_color(MulticolorTerrain.random_terrain_color(2, 4))
+
 
 ## Frees all children of the map node
 func clear_map() -> void:
 	for room in get_children():
 		room.free()
+
+
+# Loads packed scene resources from file directory into _basic_room_scenes
+func _load_room_scenes() -> void:
+	var room_files = ResourceLoader.list_directory(room_directory)
+	for file in room_files:
+		var room_scene: PackedScene = load(room_directory + "/" + file)
+		_basic_room_scenes.append(room_scene)
 
 
 # Recursively generates a path of length_remaining
@@ -188,6 +165,54 @@ func _create_path(length_remaining: int) -> bool:
 	
 	# If no valid path is found, return false; this current_room is invalid
 	return false
+
+
+func _fill_map_from_grid(start_y: int) -> void:
+	# Fill main portion of map
+	for i in range(map_size.x):
+		for j in range(map_size.y):
+			var room: Node2D
+			if _map_grid[i][j] == 0:
+				room = filler_scene.instantiate()
+			else:
+				var random_index := randi_range(0, _basic_room_scenes.size() - 1)
+				room = _basic_room_scenes[random_index].instantiate()
+			# Set room position
+			room.position = Vector2i(i, j) * room_size
+			add_child(room)
+	
+	# Fill side edges of map including entrance and backyard
+	for j in range(map_size.y):
+		# Left edge of the map
+		var room: Node2D
+		if j == start_y:
+			room = entrance_scene.instantiate()
+		else:
+			room = filler_scene.instantiate()
+		room.position = Vector2i(-1, j) * room_size
+		add_child(room)
+		
+		# Right edge of the map
+		room = null
+		if j == _current_room.y:
+			room = backyard_scene.instantiate()
+		else:
+			room = filler_scene.instantiate()
+		room.position = Vector2i(map_size.x, j) * room_size
+		add_child(room)
+		
+	# Fill top and bottom edges
+	for i in range(map_size.x):
+		# Top edge
+		var room: Node2D = filler_scene.instantiate()
+		room.position = Vector2i(i, -1) * room_size
+		add_child(room)
+		
+		# Bottom edge
+		room = filler_scene.instantiate()
+		room.position = Vector2i(i, map_size.y) * room_size
+		add_child(room)
+
 
 # Prints _map_grid
 func _print_grid() -> void:

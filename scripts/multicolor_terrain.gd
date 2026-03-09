@@ -1,7 +1,13 @@
+class_name MulticolorTerrain
 extends TileMapLayer
 
 ## Enum values are the atlas y-coordinates of these rows
 enum TerrainColor {GREEN = 1, VIOLET = 2, TEAL = 3, PURPLE = 4}
+
+## Choose random terrain color (with optional range, inclusive)
+static func random_terrain_color(_min: int = 1, _max: int = 4) -> TerrainColor:
+	var index = randi_range(_min, _max)
+	return index as TerrainColor
 
 ## Sets all terrain blocks in this layer to [param color]
 func set_terrain_color(color: TerrainColor):

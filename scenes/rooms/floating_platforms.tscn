@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="1_idbx7"]
 [ext_resource type="Script" uid="uid://birpc4b0jy5cu" path="res://scripts/base_room.gd" id="1_rkt0l"]
-[ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/terrain_colorer.gd" id="2_rkt0l"]
+[ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/multicolor_terrain.gd" id="2_rkt0l"]
 
 [node name="Floating Platforms Room" type="Node2D" unique_id=147515703]
 script = ExtResource("1_rkt0l")

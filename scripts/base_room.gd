@@ -1,14 +1,11 @@
 ## Basic room class for all rooms
-class_name Room 
+class_name BasicRoom 
 extends Node2D
 
-@onready var terrain_layer: TileMapLayer = $Terrain
+@onready var terrain_layer: MulticolorTerrain = $Terrain
 
-func _init() -> void:
+func set_door_states() -> void:
 	pass
 
-func _set_door_states() -> void:
-	pass
-
-func _set_terrain_color() -> void:
-	pass
+func set_terrain_color(color: MulticolorTerrain.TerrainColor) -> void:
+	terrain_layer.set_terrain_color(color)
