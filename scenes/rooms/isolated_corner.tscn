@@ -4,7 +4,7 @@
 [ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="2_peraw"]
 [ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/terrain_colorer.gd" id="3_yrhca"]
 
-[node name="BasicRoomTwo" type="Node2D" unique_id=147515703]
+[node name="Isolated Corner Room" type="Node2D" unique_id=147515703]
 script = ExtResource("1_sonlx")
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=1639016065]
