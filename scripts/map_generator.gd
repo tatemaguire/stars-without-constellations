@@ -16,8 +16,6 @@ extends Node2D
 @export_tool_button("Generate Map") var generate_map_action = generate_map
 ## Clear map in-editor for debugging
 @export_tool_button("Clear Map") var clear_map_action = clear_map
-## Regenerate the map when starting the game (happens in _ready)
-@export var generate_on_ready: bool = true
 ## Maximum room size of the map
 @export var map_size := Vector2i(5, 5)
 ## Length of main_path from entrance to backyard
@@ -40,9 +38,7 @@ var _map_grid: Array[Array]
 func _ready() -> void:
 	
 	_load_room_scenes()
-	
-	if generate_on_ready:
-		generate_map()
+	generate_map()
 	
 	if not Engine.is_editor_hint():
 		# TODO: Clean up these references
@@ -93,10 +89,11 @@ func generate_map() -> void:
 	clear_map()
 	_fill_map_from_grid(start_y)
 	
-	# Set basic roms to be violet
-	for room in get_children():
-		if room is BasicRoom:
-			room.set_terrain_color(MulticolorTerrain.random_terrain_color(2, 4))
+	# Set basic rooms to be different colors
+	if not Engine.is_editor_hint():
+		for room in get_children():
+			if room is BasicRoom:
+				room.set_terrain_color(MulticolorTerrain.random_terrain_color(2, 4))
 
 
 ## Frees all children of the map node
