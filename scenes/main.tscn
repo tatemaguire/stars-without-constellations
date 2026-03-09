@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b0nmp1sr504lp" path="res://scripts/camera.gd" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://byka7pxs4clfd" path="res://scenes/player.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://opv6dabjh2ox" path="res://scripts/map_generator.gd" id="3_tefeu"]
+[ext_resource type="PackedScene" uid="uid://cobv1nfaakuob" path="res://scenes/special_rooms/solid_terrain.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cosnrhngvps5m" path="res://scenes/special_rooms/backyard.tscn" id="8_tipki"]
 
 [node name="main" type="Node2D" unique_id=1027586260]
@@ -24,3 +25,4 @@ script = ExtResource("3_tefeu")
 room_directory = "res://scenes/rooms"
 entrance_scene = ExtResource("1_sugp2")
 backyard_scene = ExtResource("8_tipki")
+filler_scene = ExtResource("5_tbgi4")

@@ -8,6 +8,8 @@ extends Node2D
 @export var entrance_scene: PackedScene
 ## Backyard scene reference
 @export var backyard_scene: PackedScene
+## Filler scene reference
+@export var filler_scene: PackedScene
 
 @export_category("Map Generation")
 ## Generate map in-editor for debugging
