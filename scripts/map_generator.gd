@@ -22,11 +22,18 @@ extends Node2D
 @export var main_path_length: int = 8
 ## Number of branches
 @export var num_branches: int = 2
+## Length of branches
+@export var branch_length: int = 4
 
 ## Scene references
 var _basic_room_scenes: Array[PackedScene]
+## Current room coordinate of the pathway being generated
+var _current_room: Vector2i
+## Grid of rooms on the map
+var _map_grid: Array[Array]
 
-@onready var room_size: Vector2 = ProjectSettings.get_setting("global/room_size")
+## room_size in pixels
+@onready var room_size: Vector2i = ProjectSettings.get_setting("global/room_size")
 
 
 func _ready() -> void:
@@ -38,18 +45,155 @@ func _ready() -> void:
 	
 	# Initial generation
 	generate_map()
-
-
-func generate_map() -> void:
-	clear_map()
-	var entrance: Node2D = entrance_scene.instantiate()
-	add_child(entrance)
 	
-	for i in range(_basic_room_scenes.size()):
-		var room = _basic_room_scenes[i].instantiate()
-		room.position.x += room_size.x * (i + 1)
-		add_child(room)
+	# TODO: Clean up these references
+	# Move player to spawn point
+	var player_spawn: Node2D = get_node("Entrance/PlayerSpawn")
+	assert(player_spawn)
+	var player: PlayerCharacter = get_parent().get_node("Player")
+	player.global_position = player_spawn.global_position
+	
+	
 
+## Generates the entire map, with entrance, backyard, main path, and branches
+## Fills the map with exported scene references
+func generate_map() -> void:
+	assert(main_path_length >= map_size.x)
+	
+	# ---------- Generate Map Grid -----------
+	
+	# Initialize map_grid with zeros
+	_map_grid.clear()
+	for i in map_size.x:
+		_map_grid.append([])
+		for j in map_size.y:
+			_map_grid[i].append(0)
+	
+	# Choose starting room randomly
+	var start_y = randi_range(0, map_size.y-1)
+	_map_grid[0][start_y] = main_path_length
+	_current_room = Vector2i(0, start_y)
+	
+	# Generate main path in _map_grid
+	if not _create_path(main_path_length - 1):
+		printerr("Can't generate main path of map")
+	
+	_print_grid()
+	
+	# ---------- Fill The Scene With Rooms -----------
+	
+	clear_map()
+	
+	# Fill main portion of map
+	for i in range(map_size.x):
+		for j in range(map_size.y):
+			var room: Node2D
+			if _map_grid[i][j] == 0:
+				room = filler_scene.instantiate()
+			else:
+				var random_index := randi_range(0, _basic_room_scenes.size() - 1)
+				room = _basic_room_scenes[random_index].instantiate()
+			# Set room position
+			room.position = Vector2i(i, j) * room_size
+			add_child(room)
+	
+	# Fill side edges of map including entrance and backyard
+	for j in range(map_size.y):
+		# Left edge of the map
+		var room: Node2D
+		if j == start_y:
+			room = entrance_scene.instantiate()
+		else:
+			room = filler_scene.instantiate()
+		room.position = Vector2i(-1, j) * room_size
+		add_child(room)
+		
+		# Right edge of the map
+		room = null
+		if j == _current_room.y:
+			room = backyard_scene.instantiate()
+		else:
+			room = filler_scene.instantiate()
+		room.position = Vector2i(map_size.x, j) * room_size
+		add_child(room)
+		
+	# Fill top and bottom edges
+	for i in range(map_size.x):
+		# Top edge
+		var room: Node2D = filler_scene.instantiate()
+		room.position = Vector2i(i, -1) * room_size
+		add_child(room)
+		
+		# Bottom edge
+		room = filler_scene.instantiate()
+		room.position = Vector2i(i, map_size.y) * room_size
+		add_child(room)
+		
+
+## Frees all children of the map node
 func clear_map() -> void:
 	for room in get_children():
 		room.free()
+
+
+# Recursively generates a path of length_remaining
+# Starting at _current_room within _map_grid
+# Returns true if valid path is found
+func _create_path(length_remaining: int) -> bool:
+	if length_remaining == 0:
+		# Return true if we are at the right edge of the map
+		return _current_room.x == map_size.x - 1
+	
+	# Start with a random direction
+	var direction_index: int = randi_range(0, 3)
+	var direction: Vector2i
+	for i in range(4):
+		# Cycle through four directions
+		direction_index += i
+		direction_index %= 4
+		match direction_index:
+			0:
+				direction = Vector2i.UP
+			1:
+				direction = Vector2i.LEFT
+			2:
+				direction = Vector2i.DOWN
+			3:
+				direction = Vector2i.RIGHT
+		
+		# Apply direction to the current room
+		var new_room: Vector2i = _current_room + direction
+		# Check that it's in the bounds of map_size
+		if (new_room.x < 0 
+				or new_room.x >= map_size.x 
+				or new_room.y < 0 
+				or new_room.y >= map_size.y):
+			continue
+		# See if this new room is empty
+		if int(_map_grid[new_room.x][new_room.y]) == 0:
+			# Fill this room
+			_map_grid[new_room.x][new_room.y] = length_remaining
+			
+			var old_room := _current_room
+			_current_room = new_room
+			# Check if this current room is valid by recursive generation
+			var is_valid: bool = _create_path(length_remaining - 1)
+			if is_valid:
+				return true
+			else:
+				# Revert
+				_map_grid[new_room.x][new_room.y] = 0
+				_current_room = old_room
+				continue
+	
+	# If no valid path is found, return false; this current_room is invalid
+	return false
+
+# Prints _map_grid
+func _print_grid() -> void:
+	print("")
+	for j in range(map_size.x):
+		var row = ""
+		for i in range(map_size.y):
+			row += str(_map_grid[i][j]) + " "
+		print(row)

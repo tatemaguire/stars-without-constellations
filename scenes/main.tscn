@@ -15,10 +15,6 @@ script = ExtResource("3_jyhfs")
 _player_character = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_sugp2")]
-position = Vector2(64, 133)
-max_speed = 80.0
-max_acceleration = 700.0
-jump_velocity = 190.0
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
@@ -26,3 +22,4 @@ room_directory = "res://scenes/rooms"
 entrance_scene = ExtResource("1_sugp2")
 backyard_scene = ExtResource("8_tipki")
 filler_scene = ExtResource("5_tbgi4")
+main_path_length = 14
