@@ -22,5 +22,3 @@ room_directory = "res://scenes/rooms"
 entrance_scene = ExtResource("1_sugp2")
 backyard_scene = ExtResource("8_tipki")
 filler_scene = ExtResource("5_tbgi4")
-map_size = Vector2i(4, 4)
-main_path_length = 9

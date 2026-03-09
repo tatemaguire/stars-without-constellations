@@ -20,10 +20,10 @@ extends Node2D
 @export var map_size := Vector2i(5, 5)
 ## Length of main_path from entrance to backyard
 @export var main_path_length: int = 8
-## Number of branches
-@export var num_branches: int = 2
-## Length of branches
-@export var branch_length: int = 4
+### Number of branches
+#@export var num_branches: int = 2
+### Length of branches
+#@export var branch_length: int = 4
 
 ## Scene references
 var _basic_room_scenes: Array[PackedScene]
@@ -214,8 +214,8 @@ func _fill_map_from_grid(start_y: int) -> void:
 # Prints _map_grid
 func _print_grid() -> void:
 	print("")
-	for j in range(map_size.x):
+	for j in range(map_size.y):
 		var row = ""
-		for i in range(map_size.y):
+		for i in range(map_size.x):
 			row += str(_map_grid[i][j]) + " "
 		print(row)
