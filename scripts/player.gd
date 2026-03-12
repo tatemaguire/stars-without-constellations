@@ -2,7 +2,7 @@ class_name PlayerCharacter extends CharacterBody2D
 
 enum States {GROUND, JUMPING, FALLING, COYOTE}
 
-
+## Max player speed 
 @export var max_speed: float = 80
 ## Forward acceleration
 @export var acceleration: float = 700
@@ -10,11 +10,18 @@ enum States {GROUND, JUMPING, FALLING, COYOTE}
 @export var drift: float = 900
 ## Velocity of jump, applied upwards
 @export var jump_velocity: float = 190
+## Acceleration downwards if jump ends early
+@export var jump_suppression_acceleration: float = 70
 ## Time in ms of coyote effect (jumping after running off edge)
-@export var coyote_time: float = 0.05
+@export var coyote_time: float = 0.08
 
+# State Variables
+# The following variables describe the player's state
 var current_state: States = States.FALLING
 var remaining_coyote_time: float = 0
+var direction: float = 0
+var suppress_jump: bool = false
+
 
 func _physics_process(delta: float) -> void:
 	_process_state(delta)
@@ -22,19 +29,11 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _check_jump(_delta: float) -> void:
-	# Get jump input
-	if is_on_floor() and Input.is_action_just_pressed("Jump"):
-		if Input.is_action_pressed("Down"):
-			jump_down()
-		else:
-			velocity.y = -jump_velocity
-
-
+# Applying the state per-frame
 func _process_state(delta: float) -> void:
 	match current_state:
 		States.GROUND:
-			var direction = _parse_input(delta)
+			_parse_input(delta)
 			if direction != 0:
 				$AnimatedSprite2D.play("run")
 			else:
@@ -42,6 +41,11 @@ func _process_state(delta: float) -> void:
 		States.JUMPING:
 			_parse_input(delta)
 			_apply_gravity(delta)
+			# Jump Suppression
+			if not suppress_jump and not Input.is_action_pressed("Jump"):
+				suppress_jump = true
+			if suppress_jump:
+				velocity.y += jump_suppression_acceleration
 		States.FALLING:
 			_parse_input(delta)
 			_apply_gravity(delta)
@@ -64,6 +68,8 @@ func _check_state_transitions():
 			if is_on_floor():
 				_transition_state(States.GROUND)
 			elif velocity.y > 0:
+				# TODO: what's a better way to do this? cancels jump suppression
+				velocity.y = 0
 				_transition_state(States.FALLING)
 		States.FALLING:
 			if is_on_floor():
@@ -79,16 +85,16 @@ func _check_state_transitions():
 
 # On transitioning to a new_state
 func _transition_state(new_state: States) -> void:
-	# On leaving this state
-	#match: current_state
-	
 	# On entering new_state
 	match new_state:
+		States.GROUND:
+			pass
 		States.JUMPING:
 			if Input.is_action_pressed("Down"):
-				jump_down()
+				_jump_down()
 			else:
 				velocity.y = -jump_velocity
+				suppress_jump = false
 		States.COYOTE:
 			remaining_coyote_time = coyote_time
 	
@@ -96,26 +102,28 @@ func _transition_state(new_state: States) -> void:
 
 
 # Function that's called during many states where player has control
-# Returns direction
-func _parse_input(delta: float) -> float:
-	var direction := Input.get_axis("Left", "Right")
+# updates the direction variable
+func _parse_input(delta: float) -> void:
+	direction = Input.get_axis("Left", "Right")
 	
+	# Sprite orientation
 	if direction < 0:
 		$AnimatedSprite2D.flip_h = true
 	elif direction > 0:
 		$AnimatedSprite2D.flip_h = false
-	acceleration
+
+	# Horizontal movement
 	if direction != 0:
 		var target_velocity = sign(direction) * max_speed
 		var accel = abs(direction) * acceleration
 		velocity.x = move_toward(velocity.x, target_velocity, accel * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, drift * delta)
-	
-	return direction
+
 
 func _apply_gravity(delta: float) -> void:
 	velocity += get_gravity() * delta
 
-func jump_down() -> void:
+
+func _jump_down() -> void:
 	position.y += 1
