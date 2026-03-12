@@ -59,8 +59,11 @@ frame_progress = 0.5663074
 [node name="LeftCast" type="RayCast2D" parent="." unique_id=1530847320]
 position = Vector2(-3, 0)
 target_position = Vector2(-1, 0)
+collision_mask = 3
+hit_from_inside = true
 
 [node name="RightCast" type="RayCast2D" parent="." unique_id=760968222]
 position = Vector2(3, 0)
 target_position = Vector2(1, 0)
+collision_mask = 3
 hit_from_inside = true
