@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://muailbertva2"]
+
+[ext_resource type="Script" uid="uid://h80ijf548g2c" path="res://scripts/hud.gd" id="1_0k5hr"]
+[ext_resource type="Texture2D" uid="uid://dac5fspfc564m" path="res://assets/tiles/tileset.png" id="2_kl70x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrqwi"]
+atlas = ExtResource("2_kl70x")
+region = Rect2(56, 8, 7, 6)
+
+[node name="HUD" type="CanvasLayer" unique_id=754128567]
+script = ExtResource("1_0k5hr")
+
+[node name="Healthbar" type="Control" parent="." unique_id=931043040]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -10.0
+offset_right = 36.0
+offset_bottom = -4.0
+grow_vertical = 0
+
+[node name="Heart1" type="TextureRect" parent="Healthbar" unique_id=91354745]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+offset_right = 7.0
+grow_vertical = 0
+texture = SubResource("AtlasTexture_jrqwi")
+stretch_mode = 2
+
+[node name="Heart2" type="TextureRect" parent="Healthbar" unique_id=1805454813]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -6.0
+offset_right = 16.0
+grow_vertical = 0
+texture = SubResource("AtlasTexture_jrqwi")
+stretch_mode = 2
+
+[node name="Heart3" type="TextureRect" parent="Healthbar" unique_id=812321539]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -6.0
+offset_right = 25.0
+grow_vertical = 0
+texture = SubResource("AtlasTexture_jrqwi")
+stretch_mode = 2
+
+[node name="Heart4" type="TextureRect" parent="Healthbar" unique_id=213472456]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = -6.0
+offset_right = 34.0
+grow_vertical = 0
+texture = SubResource("AtlasTexture_jrqwi")
+stretch_mode = 2

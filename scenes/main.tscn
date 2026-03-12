@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://byka7pxs4clfd" path="res://scenes/player.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://opv6dabjh2ox" path="res://scripts/map_generator.gd" id="3_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cobv1nfaakuob" path="res://scenes/special_rooms/solid_terrain.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://muailbertva2" path="res://scenes/ui/hud.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cosnrhngvps5m" path="res://scenes/special_rooms/backyard.tscn" id="8_tipki"]
 
 [node name="main" type="Node2D" unique_id=1027586260]
@@ -14,10 +15,19 @@ anchor_mode = 0
 script = ExtResource("3_jyhfs")
 _player_character = NodePath("../Player")
 
+[node name="Healthbar" parent="Camera2D" unique_id=1365003003 instance=ExtResource("7_o6xl0")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -320.0
+offset_top = 368.0
+offset_bottom = 548.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_sugp2")]
 max_speed = 55.0
 acceleration = 500.0
-drift = 800.0
 jump_velocity = 180.0
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
@@ -26,3 +36,5 @@ room_directory = "res://scenes/rooms"
 entrance_scene = ExtResource("1_sugp2")
 backyard_scene = ExtResource("8_tipki")
 filler_scene = ExtResource("5_tbgi4")
+
+[editable path="Camera2D/Healthbar"]
