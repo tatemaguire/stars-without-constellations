@@ -73,7 +73,7 @@ Debug={
 [physics]
 
 3d/physics_engine="Jolt Physics"
-2d/default_gravity=700.0
+2d/default_gravity=500.0
 
 [rendering]
 

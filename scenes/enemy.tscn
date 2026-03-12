@@ -42,7 +42,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Enemy" type="RigidBody2D" unique_id=1898170809]
+[node name="Enemy" type="RigidBody2D" unique_id=1764343306]
+lock_rotation = true
 script = ExtResource("1_md0e3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=986075608]
@@ -54,3 +55,12 @@ sprite_frames = SubResource("SpriteFrames_xwavj")
 animation = &"run"
 frame = 2
 frame_progress = 0.5663074
+
+[node name="LeftCast" type="RayCast2D" parent="." unique_id=1530847320]
+position = Vector2(-3, 0)
+target_position = Vector2(-1, 0)
+
+[node name="RightCast" type="RayCast2D" parent="." unique_id=760968222]
+position = Vector2(3, 0)
+target_position = Vector2(1, 0)
+hit_from_inside = true

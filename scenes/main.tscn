@@ -15,6 +15,10 @@ script = ExtResource("3_jyhfs")
 _player_character = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_sugp2")]
+max_speed = 55.0
+acceleration = 500.0
+drift = 800.0
+jump_velocity = 180.0
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
