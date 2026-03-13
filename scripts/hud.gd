@@ -3,6 +3,7 @@ extends CanvasLayer
 @export var player_character: PlayerCharacter
 
 func _ready() -> void:
+	assert(player_character)
 	player_character.player_damaged.connect(_set_healthbar)
 
 

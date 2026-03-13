@@ -15,20 +15,7 @@ anchor_mode = 0
 script = ExtResource("3_jyhfs")
 _player_character = NodePath("../Player")
 
-[node name="Healthbar" parent="Camera2D" unique_id=1365003003 instance=ExtResource("7_o6xl0")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = -320.0
-offset_top = 368.0
-offset_bottom = 548.0
-grow_horizontal = 1
-grow_vertical = 1
-
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_sugp2")]
-max_speed = 55.0
-acceleration = 500.0
-jump_velocity = 180.0
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
@@ -36,5 +23,8 @@ room_directory = "res://scenes/rooms"
 entrance_scene = ExtResource("1_sugp2")
 backyard_scene = ExtResource("8_tipki")
 filler_scene = ExtResource("5_tbgi4")
+map_size = Vector2i(3, 3)
+main_path_length = 5
 
-[editable path="Camera2D/Healthbar"]
+[node name="HUD" parent="." unique_id=754128567 node_paths=PackedStringArray("player_character") instance=ExtResource("7_o6xl0")]
+player_character = NodePath("../Player")

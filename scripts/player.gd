@@ -3,13 +3,15 @@ class_name PlayerCharacter extends CharacterBody2D
 enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 
 ## Max player speed 
-@export var max_speed: float = 80
+@export var max_speed: float = 70
 ## Forward acceleration
-@export var acceleration: float = 700
+@export var acceleration: float = 600
 ## Acceleration when slowing down
 @export var damping: float = 900
+## Acceleration due to gravity
+@export var gravity: float = 600
 ## Velocity of jump, applied upwards
-@export var jump_velocity: float = 190
+@export var jump_velocity: float = 180
 ## Acceleration downwards if jump ends early
 @export var jump_suppression_acceleration: float = 70
 ## Time in s of coyote effect (jumping after running off edge)
@@ -93,7 +95,10 @@ func _check_state_transitions():
 				_transition_state(States.FALLING)
 		States.FALLING:
 			if is_on_floor():
-				_transition_state(States.GROUND)
+				if Input.is_action_pressed("Jump"):
+					_transition_state(States.JUMPING)
+				else:
+					_transition_state(States.GROUND)
 		States.COYOTE:
 			if Input.is_action_just_pressed("Jump"):
 				_transition_state(States.JUMPING)
@@ -140,7 +145,7 @@ func _parse_input(delta: float) -> void:
 
 
 func _apply_gravity(delta: float) -> void:
-	velocity += get_gravity() * delta
+	velocity.y += gravity * delta
 
 
 func _apply_damping(delta: float) -> void:
