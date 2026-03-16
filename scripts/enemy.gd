@@ -1,8 +1,14 @@
+class_name Enemy
 extends CharacterBody2D
 
 @export var speed: float = 40
+
+@export_group("Attack")
 @export var damage: int = 1
-@export var knockback_velocity: float = 200
+@export var knockback_velocity: float = 250
+@export_range(0, 90, 0.1, "radians_as_degrees") var knockback_angle: float = PI/8
+
+@onready var attack_box: Area2D = $AttackBox
 
 var direction: int = 1
 
@@ -27,16 +33,13 @@ func _process_collisions() -> void:
 		else: # Wall is to the left
 			direction = 1
 			$AnimatedSprite2D.flip_h = false
-	
-	# Process collision with player
-	for i in get_slide_collision_count():
-		var collision = get_slide_collision(i)
-		var collider = collision.get_collider()
-		if collider is PlayerCharacter:
-			# calculate knockback velocity
-			var knockback: Vector2 = (collider.global_position - self.global_position).normalized()
-			knockback = knockback.normalized() * knockback_velocity
-			# apply damage and knockback
-			collider.take_damage(damage, knockback)
-		
-		
+
+
+func _on_attack_box_body_entered(body: Node2D) -> void:
+	if body is PlayerCharacter:
+		# Calculate right-facing knockback vector
+		var knockback: Vector2 = Vector2.RIGHT.rotated(-knockback_angle)
+		# Set knockback to push away from self
+		var dx = body.global_position.x - self.global_position.x
+		knockback.x *= sign(dx)
+		body.take_damage(damage, knockback * knockback_velocity)

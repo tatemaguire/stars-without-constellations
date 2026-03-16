@@ -149,7 +149,7 @@ func _apply_gravity(delta: float) -> void:
 
 
 func _apply_damping(delta: float) -> void:
-	if absf(direction) < 1e-4:
+	if absf(direction) < 1e-4 or sign(direction) == -sign(velocity.x):
 		velocity.x = move_toward(velocity.x, 0, damping * delta)
 
 
@@ -166,7 +166,7 @@ func _update_invincibility(delta: float) -> void:
 		invincible = false
 
 
-func take_damage(damage: int, knockback: Vector2) -> void:
+func take_damage(damage: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	if invincible:
 		return
 	
@@ -175,7 +175,8 @@ func take_damage(damage: int, knockback: Vector2) -> void:
 	print("DAMAGED: ", hp)
 	
 	# Knockback
-	velocity += knockback
+	velocity = knockback
+	#print(knockback)
 	
 	# Invincibility
 	invincible = true
@@ -184,4 +185,3 @@ func take_damage(damage: int, knockback: Vector2) -> void:
 
 func kill() -> void:
 	player_killed.emit()
-		

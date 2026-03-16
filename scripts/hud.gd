@@ -10,7 +10,6 @@ func _ready() -> void:
 func _set_healthbar(hp: int) -> void:
 	for child in $Healthbar.get_children():
 		if child is TextureRect:
-			print(hp)
 			# Get number next to "Heart" in the name
 			var index = child.name.substr(5) as int
 			child.visible = index <= hp

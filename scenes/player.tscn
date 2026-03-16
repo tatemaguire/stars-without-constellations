@@ -48,12 +48,14 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1774403905]
+collision_layer = 2
 script = ExtResource("1_g2els")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1718016414]
-position = Vector2(0, 0.5)
+position = Vector2(4, 4.5)
 shape = SubResource("RectangleShape2D_u8vuu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1749459324]
+position = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_3vyb7")
 animation = &"idle"
