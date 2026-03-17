@@ -5,7 +5,7 @@ extends Camera2D
 @onready var _room_size: Vector2i = ProjectSettings.get_setting("global/room_size")
 
 func _process(_delta) -> void:
-	var p_screen_pos: Vector2i = Vector2i(_player_character.position - position)
+	var p_screen_pos: Vector2i = _player_character.get_node("Viewpoint").global_position - self.position
 	
 	# Check if camera needs to move in the x-direction
 	if p_screen_pos.x < 0:

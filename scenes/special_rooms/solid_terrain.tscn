@@ -1,11 +1,9 @@
 [gd_scene format=4 uid="uid://cobv1nfaakuob"]
 
-[ext_resource type="Script" uid="uid://birpc4b0jy5cu" path="res://scripts/base_room.gd" id="1_2xu1p"]
 [ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="2_p7w16"]
 [ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/multicolor_terrain.gd" id="3_83qid"]
 
 [node name="SolidTerrain" type="Node2D" unique_id=147515703]
-script = ExtResource("1_2xu1p")
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=1639016065]
 z_index = -1

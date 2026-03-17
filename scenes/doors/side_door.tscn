@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://drbj3pfapmq63"]
+
+[ext_resource type="Script" uid="uid://bqetg37eordm3" path="res://scripts/door.gd" id="1_2wui2"]
+[ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="1_rqk3t"]
+[ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/multicolor_terrain.gd" id="3_pv8bl"]
+
+[node name="SideDoor" type="Node2D" unique_id=1930971371]
+script = ExtResource("1_2wui2")
+
+[node name="Closed" type="TileMapLayer" parent="." unique_id=1761041285]
+visible = false
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0)
+tile_set = ExtResource("1_rqk3t")
+collision_enabled = false
+script = ExtResource("3_pv8bl")
+
+[node name="Open" type="TileMapLayer" parent="." unique_id=362381980]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 2, 0, 0, 0, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1, 0, 0, 48)
+tile_set = ExtResource("1_rqk3t")
+script = ExtResource("3_pv8bl")

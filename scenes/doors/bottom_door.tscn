@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://kc4h6qmvuw1"]
+
+[ext_resource type="Script" uid="uid://bqetg37eordm3" path="res://scripts/door.gd" id="1_18bes"]
+[ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="2_fqv5d"]
+[ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/multicolor_terrain.gd" id="3_fqv5d"]
+
+[node name="BottomDoor" type="Node2D" unique_id=1930971371]
+script = ExtResource("1_18bes")
+
+[node name="Closed" type="TileMapLayer" parent="." unique_id=1761041285]
+visible = false
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 32, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 32, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0)
+tile_set = ExtResource("2_fqv5d")
+collision_enabled = false
+script = ExtResource("3_fqv5d")
+
+[node name="Open" type="TileMapLayer" parent="." unique_id=362381980]
+tile_map_data = PackedByteArray(0, 0, 1, 0, 0, 0, 0, 0, 6, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 1, 0, 0, 96, 0, 0, 1, 0, 0, 0, 3, 0, 1, 0, 0, 80)
+tile_set = ExtResource("2_fqv5d")
+script = ExtResource("3_fqv5d")

@@ -15,27 +15,33 @@ var direction: int = 1
 func _physics_process(delta: float) -> void:
 	_set_velocity(delta)
 	move_and_slide()
-	_process_collisions()
+	_check_direction_change()
 
 
+# Sets velocity and gravity
 func _set_velocity(delta: float) -> void:
 	velocity.x = direction * speed
 	velocity += get_gravity() * delta
 
 
-func _process_collisions() -> void:
-	# Turn around if on a wall
+# Turn around if on a wall or an edge
+func _check_direction_change() -> void:
+	var wall_normal: Vector2 = Vector2.ZERO
 	if is_on_wall():
-		var wall_normal = get_wall_normal()
-		if wall_normal.x < 0: # Wall is to the right
-			direction = -1
-			$AnimatedSprite2D.flip_h = true
-		else: # Wall is to the left
-			direction = 1
-			$AnimatedSprite2D.flip_h = false
+		wall_normal = get_wall_normal()
+		
+	if wall_normal.x < 0 or not $RightCast.is_colliding():
+		# Wall is to the right
+		direction = -1
+		$AnimatedSprite2D.flip_h = true
+	elif wall_normal.x > 0 or not $LeftCast.is_colliding():
+		# Wall is to the left
+		direction = 1
+		$AnimatedSprite2D.flip_h = false
 
 
-func _on_attack_box_body_entered(body: Node2D) -> void:
+# Called when a collider body enters the attack box
+func _on_attack_box_entered(body: Node2D) -> void:
 	if body is PlayerCharacter:
 		# Calculate right-facing knockback vector
 		var knockback: Vector2 = Vector2.RIGHT.rotated(-knockback_angle)

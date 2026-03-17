@@ -28,14 +28,3 @@ func _set_tile_color(coords: Vector2i, color: TerrainColor):
 	
 	# Set new tile data
 	set_cell(coords, source_id, atlas_coords, alternative_tile)
-
-# Color Switcher For Debugging
-var current_terrain_color: TerrainColor = TerrainColor.GREEN
-func _input(event: InputEvent):
-	if event.is_action_pressed("Debug"):
-		var new_col = current_terrain_color + 1
-		if new_col > TerrainColor.PURPLE: 
-			new_col = 1
-		set_terrain_color(new_col)
-		current_terrain_color = new_col as TerrainColor
-		print(TerrainColor.keys()[current_terrain_color-1], " ", new_col)

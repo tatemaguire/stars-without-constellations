@@ -31,6 +31,10 @@ var _basic_room_scenes: Array[PackedScene]
 var _current_room: Vector2i
 ## Grid of rooms on the map
 var _map_grid: Array[Array]
+## Current entrance room coordinate
+var entrance_coord: Vector2i
+## Current backyard room coordinate
+var backyard_coord: Vector2i
 
 ## room_size in pixels
 @onready var room_size: Vector2i = ProjectSettings.get_setting("global/room_size")
@@ -55,8 +59,10 @@ func _ready() -> void:
 func generate_map() -> void:
 	assert(main_path_length >= map_size.x)
 	
+	entrance_coord = Vector2i(-1, 0)
+	backyard_coord = Vector2i(map_size.x, 0)
+	
 	# ---------- Generate Map Grid -----------
-	var start_y: int
 	var successful: bool = false
 	# Try 10 times
 	for attempt in range(10):
@@ -69,9 +75,9 @@ func generate_map() -> void:
 				_map_grid[i].append(0)
 		
 		# Choose starting room randomly
-		start_y = randi_range(0, map_size.y-1)
-		_map_grid[0][start_y] = main_path_length
-		_current_room = Vector2i(0, start_y)
+		entrance_coord.y = randi_range(0, map_size.y-1)
+		_map_grid[0][entrance_coord.y] = main_path_length
+		_current_room = entrance_coord + Vector2i.RIGHT
 		
 		# Generate main path in _map_grid
 		if _create_path(main_path_length - 1):
@@ -82,12 +88,14 @@ func generate_map() -> void:
 		printerr("Can't generate main path of map")
 		return
 	
+	backyard_coord = _current_room + Vector2i.RIGHT
+	
 	_print_grid()
 	
 	# ---------- Fill The Scene With Rooms -----------
 	
 	clear_map()
-	_fill_map_from_grid(start_y)
+	_fill_map_from_grid()
 	
 	# Set basic rooms to be different colors
 	if not Engine.is_editor_hint():
@@ -137,11 +145,8 @@ func _create_path(length_remaining: int) -> bool:
 		
 		# Apply direction to the current room
 		var new_room: Vector2i = _current_room + direction
-		# Check that it's in the bounds of map_size
-		if (new_room.x < 0 
-				or new_room.x >= map_size.x 
-				or new_room.y < 0 
-				or new_room.y >= map_size.y):
+		# Check bounds
+		if not _in_map_bounds(new_room):
 			continue
 		# See if this new room is empty
 		if int(_map_grid[new_room.x][new_room.y]) == 0:
@@ -164,52 +169,56 @@ func _create_path(length_remaining: int) -> bool:
 	return false
 
 
-func _fill_map_from_grid(start_y: int) -> void:
+func _fill_map_from_grid() -> void:
 	# Fill main portion of map
 	for i in range(map_size.x):
 		for j in range(map_size.y):
-			var room: Node2D
-			if _map_grid[i][j] == 0:
-				room = filler_scene.instantiate()
-			else:
+			if _map_grid[i][j] != 0:
+				# Instantiate random basic room
 				var random_index := randi_range(0, _basic_room_scenes.size() - 1)
-				room = _basic_room_scenes[random_index].instantiate()
-			# Set room position
-			room.position = Vector2i(i, j) * room_size
-			add_child(room)
+				var room: BasicRoom = _basic_room_scenes[random_index].instantiate()
+				# Set room position
+				room.position = Vector2i(i, j) * room_size
+				add_child(room)
+				_set_door_states_using_grid(room, Vector2i(i, j))
 	
-	# Fill side edges of map including entrance and backyard
-	for j in range(map_size.y):
-		# Left edge of the map
-		var room: Node2D
-		if j == start_y:
-			room = entrance_scene.instantiate()
-		else:
-			room = filler_scene.instantiate()
-		room.position = Vector2i(-1, j) * room_size
-		add_child(room)
-		
-		# Right edge of the map
-		room = null
-		if j == _current_room.y:
-			room = backyard_scene.instantiate()
-		else:
-			room = filler_scene.instantiate()
-		room.position = Vector2i(map_size.x, j) * room_size
-		add_child(room)
-		
-	# Fill top and bottom edges
-	for i in range(map_size.x):
-		# Top edge
-		var room: Node2D = filler_scene.instantiate()
-		room.position = Vector2i(i, -1) * room_size
-		add_child(room)
-		
-		# Bottom edge
-		room = filler_scene.instantiate()
-		room.position = Vector2i(i, map_size.y) * room_size
-		add_child(room)
+	# Create Entrance
+	var entrance_room: Node2D = entrance_scene.instantiate()
+	entrance_room.position = entrance_coord * room_size
+	add_child(entrance_room)
+	# Create Backyard
+	var backyard_room: Node2D = backyard_scene.instantiate()
+	#TODO: messy reference to last-created room
+	backyard_room.position = backyard_coord * room_size
+	add_child(backyard_room)
 
+
+func _set_door_states_using_grid(room: BasicRoom, room_pos: Vector2i) -> void:
+	var adj_is_room: Dictionary = {
+		Vector2i.LEFT: false,
+		Vector2i.RIGHT: false,
+		Vector2i.UP: false,
+		Vector2i.DOWN: false,
+	}
+	# Figure out what adjacent cells have rooms
+	for dir in adj_is_room:
+		var adj_cell: Vector2i = room_pos + dir
+		if _in_map_bounds(adj_cell) and _map_grid[adj_cell.x][adj_cell.y] != 0:
+			adj_is_room[dir] = true
+		# Check if it's the entrance or backyard
+		if adj_cell == entrance_coord or adj_cell == backyard_coord:
+			adj_is_room[dir] = true
+	# Set door states
+	if not Engine.is_editor_hint():
+		room.set_door_states(adj_is_room[Vector2i.LEFT], adj_is_room[Vector2i.RIGHT],
+				adj_is_room[Vector2i.UP], adj_is_room[Vector2i.DOWN])
+	
+
+# Check if coordinate in map bounds
+func _in_map_bounds(coord: Vector2i) -> bool:
+	return (coord.x >= 0 and coord.x < map_size.x 
+			and coord.y >= 0 and coord.y < map_size.y)
+		
 
 # Prints _map_grid
 func _print_grid() -> void:

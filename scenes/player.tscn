@@ -97,3 +97,6 @@ shape = SubResource("RectangleShape2D_u8vuu")
 position = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_3vyb7")
 animation = &"idle"
+
+[node name="Viewpoint" type="Marker2D" parent="." unique_id=1258488031]
+position = Vector2(4, 4)
