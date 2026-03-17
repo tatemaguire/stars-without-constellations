@@ -39,21 +39,39 @@ text = "Stars Without Constellations"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="." unique_id=125282883]
+[node name="WakeUp" type="Label" parent="." unique_id=1053935987]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -38.5
-offset_top = 4.5
-offset_right = 38.5
-offset_bottom = 35.5
+offset_left = -110.0
+offset_top = 6.0
+offset_right = 110.0
+offset_bottom = 29.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
 text = "Wake Up"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[connection signal="button_up" from="Button" to="." method="_on_button_click"]
+[node name="PressZ" type="Label" parent="." unique_id=1035838552]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 25.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 8
+text = "Press Z"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,6 +1,8 @@
-class_name PlayerCharacter extends CharacterBody2D
+class_name PlayerCharacter 
+extends CharacterBody2D
 
 enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
+
 
 ## Max player speed 
 @export var max_speed: float = 70
@@ -19,6 +21,7 @@ enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 ## Time in s of invinsibility after taking damage
 @export var invincibility_time: float = 0.2
 
+
 # State Variables
 # The following variables describe the player's state
 var current_state: States = States.FALLING
@@ -29,8 +32,14 @@ var hp: int = 4
 var invincible: bool = false
 var remaining_invincibility_time: float = 0
 
+
 signal player_damaged(current_health: int)
 signal player_killed
+
+
+func _ready() -> void:
+	player_killed.connect(SceneTransitions._on_player_killed)
+
 
 func _physics_process(delta: float) -> void:
 	_update_invincibility(delta)
