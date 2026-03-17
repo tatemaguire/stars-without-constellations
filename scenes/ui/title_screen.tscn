@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://dte6ref40nktf"]
+
+[ext_resource type="Script" uid="uid://dv1wua0mb6w41" path="res://scripts/title_screen.gd" id="1_aqpy5"]
+[ext_resource type="Texture2D" uid="uid://b4jmru77ix8g" path="res://assets/swirl_bg.png" id="1_eb34j"]
+
+[node name="TitleScreen" type="Control" unique_id=2040764020]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aqpy5")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2118772844]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_eb34j")
+
+[node name="Title" type="Label" parent="." unique_id=1939990906]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -28.0
+offset_right = 110.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Stars Without Constellations"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="." unique_id=125282883]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.5
+offset_top = 4.5
+offset_right = 38.5
+offset_bottom = 35.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Wake Up"
+
+[connection signal="button_up" from="Button" to="." method="_on_button_click"]
