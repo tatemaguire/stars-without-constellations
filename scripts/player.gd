@@ -7,7 +7,7 @@ enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 ## Forward acceleration
 @export var acceleration: float = 600
 ## Acceleration when slowing down
-@export var damping: float = 900
+@export var damping: float = 500
 ## Acceleration due to gravity
 @export var gravity: float = 600
 ## Velocity of jump, applied upwards
@@ -17,7 +17,7 @@ enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 ## Time in s of coyote effect (jumping after running off edge)
 @export var coyote_time: float = 0.08
 ## Time in s of invinsibility after taking damage
-@export var invincibility_time: float = 0.8
+@export var invincibility_time: float = 0.2
 
 # State Variables
 # The following variables describe the player's state
@@ -62,6 +62,7 @@ func _process_state(delta: float) -> void:
 			_parse_input(delta)
 			_apply_gravity(delta)
 			_apply_damping(delta)
+			$AnimatedSprite2D.play("fall")
 		States.COYOTE:
 			_parse_input(delta)
 			_apply_gravity(delta)
@@ -70,13 +71,14 @@ func _process_state(delta: float) -> void:
 		States.DEAD:
 			_apply_gravity(delta)
 			_apply_damping(delta)
+			$AnimatedSprite2D.flip_h = velocity.x < 0
 
 
 # For each state, check the conditions for transitioning
 # Important that only one of these is called per frame (if elif elif else)
 func _check_state_transitions():
 	# Check if dead
-	if hp <= 0:
+	if current_state != States.DEAD and hp <= 0:
 		_transition_state(States.DEAD)
 		return
 	
@@ -167,12 +169,11 @@ func _update_invincibility(delta: float) -> void:
 
 
 func take_damage(damage: int, knockback: Vector2 = Vector2.ZERO) -> void:
-	if invincible:
+	if invincible or current_state == States.DEAD:
 		return
 	
 	hp -= damage
 	player_damaged.emit(hp)
-	print("DAMAGED: ", hp)
 	
 	# Knockback
 	velocity = knockback
@@ -185,3 +186,4 @@ func take_damage(damage: int, knockback: Vector2 = Vector2.ZERO) -> void:
 
 func kill() -> void:
 	player_killed.emit()
+	$AnimatedSprite2D.play("death")
