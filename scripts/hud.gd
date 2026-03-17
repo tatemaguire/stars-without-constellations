@@ -5,6 +5,7 @@ extends CanvasLayer
 func _ready() -> void:
 	assert(player_character)
 	player_character.player_damaged.connect(_set_healthbar)
+	_set_healthbar(player_character.health_box.hp)
 
 
 func _set_healthbar(hp: int) -> void:

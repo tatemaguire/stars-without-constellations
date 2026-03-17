@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://d21t0d7k0elv6" path="res://assets/sprites/spritesheet.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://d2fw4xmhtrjsr" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Script" uid="uid://bcgbs6i3747my" path="res://scripts/attack_box.gd" id="3_qhqgy"]
+[ext_resource type="Script" uid="uid://bhijbsblfd25t" path="res://scripts/health_box.gd" id="4_dqkch"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8vuu"]
 size = Vector2(4, 7)
@@ -85,6 +87,20 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+size = Vector2(12, 3)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qhqgy"]
+frequency = 0.7017
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dqkch"]
+width = 12
+height = 3
+noise = SubResource("FastNoiseLite_qhqgy")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
+size = Vector2(4, 7)
+
 [node name="Player" type="CharacterBody2D" unique_id=1774403905]
 collision_layer = 2
 script = ExtResource("1_g2els")
@@ -100,3 +116,33 @@ animation = &"idle"
 
 [node name="Viewpoint" type="Marker2D" parent="." unique_id=1258488031]
 position = Vector2(4, 4)
+
+[node name="AttackBox" type="Area2D" parent="." unique_id=834045855]
+position = Vector2(7, 3.5)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("3_qhqgy")
+knockback_velocity = 350.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=609654388]
+position = Vector2(6, 0)
+shape = SubResource("RectangleShape2D_g2els")
+debug_color = Color(0.70196074, 0.041130513, 0, 0.41960785)
+
+[node name="AttackVisual" type="Sprite2D" parent="AttackBox" unique_id=1082850113]
+position = Vector2(6, 0)
+texture = SubResource("NoiseTexture2D_dqkch")
+
+[node name="HealthBox" type="Area2D" parent="." unique_id=1997602720]
+position = Vector2(4, 4.5)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_dqkch")
+initial_hp = 4
+metadata/_custom_type_script = "uid://bhijbsblfd25t"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealthBox" unique_id=813147876]
+shape = SubResource("RectangleShape2D_qlg0r")
+
+[connection signal="area_entered" from="AttackBox" to="AttackBox" method="_on_area_entered"]

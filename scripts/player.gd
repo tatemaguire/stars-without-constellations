@@ -4,6 +4,7 @@ extends CharacterBody2D
 enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 
 
+@export_group("Movement")
 ## Max player speed 
 @export var max_speed: float = 70
 ## Forward acceleration
@@ -18,8 +19,10 @@ enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 @export var jump_suppression_acceleration: float = 70
 ## Time in s of coyote effect (jumping after running off edge)
 @export var coyote_time: float = 0.08
+
+@export_group("Health and Attack")
 ## Time in s of invinsibility after taking damage
-@export var invincibility_time: float = 0.2
+@export var attack_time: float = 0.2
 
 
 # State Variables
@@ -28,9 +31,12 @@ var current_state: States = States.FALLING
 var remaining_coyote_time: float = 0
 var direction: float = 0
 var suppress_jump: bool = false
-var hp: int = 4
-var invincible: bool = false
-var remaining_invincibility_time: float = 0
+var attacking: bool = false
+var remaining_attack_time: float = 0
+var facing_left: bool = false: set = set_facing_left
+		
+		
+@onready var health_box: HealthBox = $HealthBox
 
 
 signal player_damaged(current_health: int)
@@ -41,8 +47,11 @@ func _ready() -> void:
 	player_killed.connect(SceneTransitions._on_player_killed)
 
 
+func _process(delta: float) -> void:
+	_update_attack(delta)
+
+
 func _physics_process(delta: float) -> void:
-	_update_invincibility(delta)
 	_process_state(delta)
 	_check_state_transitions()
 	move_and_slide()
@@ -80,17 +89,12 @@ func _process_state(delta: float) -> void:
 		States.DEAD:
 			_apply_gravity(delta)
 			_apply_damping(delta)
-			$AnimatedSprite2D.flip_h = velocity.x < 0
+			facing_left = velocity.x < 0
 
 
 # For each state, check the conditions for transitioning
 # Important that only one of these is called per frame (if elif elif else)
 func _check_state_transitions():
-	# Check if dead
-	if current_state != States.DEAD and hp <= 0:
-		_transition_state(States.DEAD)
-		return
-	
 	match current_state:
 		States.GROUND:
 			if Input.is_action_just_pressed("Jump"):
@@ -132,7 +136,8 @@ func _transition_state(new_state: States) -> void:
 		States.COYOTE:
 			remaining_coyote_time = coyote_time
 		States.DEAD:
-			kill()
+			player_killed.emit()
+			$AnimatedSprite2D.play("death")
 	
 	current_state = new_state
 
@@ -144,9 +149,9 @@ func _parse_input(delta: float) -> void:
 	
 	# Sprite orientation
 	if direction < 0:
-		$AnimatedSprite2D.flip_h = true
+		facing_left = true
 	elif direction > 0:
-		$AnimatedSprite2D.flip_h = false
+		facing_left = false
 
 	# Horizontal movement
 	if direction != 0:
@@ -155,44 +160,58 @@ func _parse_input(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, target_velocity, accel * delta)
 
 
+## Applies custom gravity
 func _apply_gravity(delta: float) -> void:
 	velocity.y += gravity * delta
 
 
+## Applies damping to horizontal velocity
 func _apply_damping(delta: float) -> void:
 	if absf(direction) < 1e-4 or sign(direction) == -sign(velocity.x):
 		velocity.x = move_toward(velocity.x, 0, damping * delta)
 
 
+## Jump down through platforms
 func _jump_down() -> void:
 	position.y += 1
 
 
-func _update_invincibility(delta: float) -> void:
-	if not invincible:
+## Parses input to activate AttackBox for attack_time
+func _update_attack(delta: float) -> void:
+	if current_state == States.DEAD:
 		return
+	# Check that attack is being made
+	if Input.is_action_just_pressed("Attack") and not attacking:
+		remaining_attack_time = attack_time
+		attacking = true
 	
-	remaining_invincibility_time -= delta
-	if remaining_invincibility_time < 0:
-		invincible = false
+	# Deal damage and decrease timer
+	if attacking:
+		remaining_attack_time -= delta
+		if remaining_attack_time < 0:
+			attacking = false
+	
+	$AttackBox.attacking = attacking
 
 
-func take_damage(damage: int, knockback: Vector2 = Vector2.ZERO) -> void:
-	if invincible or current_state == States.DEAD:
-		return
-	
-	hp -= damage
-	player_damaged.emit(hp)
-	
-	# Knockback
+## Returns true if the player is in a state where they can get damaged
+func can_take_damage() -> bool:
+	return current_state != States.DEAD
+
+
+## Processes damage dealt to HealthBox
+## Emits signal and applies knockback
+func take_damage(_damage: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	velocity = knockback
-	#print(knockback)
-	
-	# Invincibility
-	invincible = true
-	remaining_invincibility_time = invincibility_time
+	player_damaged.emit($HealthBox.hp)
 
 
 func kill() -> void:
-	player_killed.emit()
-	$AnimatedSprite2D.play("death")
+	_transition_state(States.DEAD)
+
+
+## Updates player and attack sprites when flipping direction
+func set_facing_left(value: bool) -> void:
+	$AnimatedSprite2D.flip_h = value
+	$AttackBox.position.x = 1 if value else 7
+	$AttackBox.scale.x = -1 if value else 1
