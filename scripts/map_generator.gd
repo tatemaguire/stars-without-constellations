@@ -25,6 +25,10 @@ extends Node2D
 ### Length of branches
 #@export var branch_length: int = 4
 
+@export_category("Item Generation")
+## Array of items
+@export var items: Array[Item]
+
 ## Scene references
 var _basic_room_scenes: Array[PackedScene]
 ## Current room coordinate of the pathway being generated

@@ -45,7 +45,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
-size = Vector2(10, 9)
+size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
 size = Vector2(8, 8)
@@ -71,7 +71,6 @@ collision_mask = 2
 script = ExtResource("3_4ra3w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox" unique_id=1844924627]
-position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_md0e3")
 
 [node name="HealthBox" type="Area2D" parent="." unique_id=2015646725]

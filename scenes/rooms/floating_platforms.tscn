@@ -22,8 +22,16 @@ tile_map_data = PackedByteArray("AAAAABYAAAAAAAEAAAABABYAAAAAAAEAAAACABYAAAABAAE
 tile_set = ExtResource("1_idbx7")
 script = ExtResource("2_rkt0l")
 
-[node name="Enemy" parent="." unique_id=1555676778 instance=ExtResource("4_i7ago")]
-position = Vector2(112, 152)
+[node name="Enemies" type="Node2D" parent="." unique_id=1549090751]
+
+[node name="Enemy" parent="Enemies" unique_id=1555676778 instance=ExtResource("4_i7ago")]
+position = Vector2(136, 88)
+
+[node name="Enemy2" parent="Enemies" unique_id=1577851513 instance=ExtResource("4_i7ago")]
+position = Vector2(48, 48)
+
+[node name="Enemy3" parent="Enemies" unique_id=742955009 instance=ExtResource("4_i7ago")]
+position = Vector2(240, 56)
 
 [node name="Doors" type="Node2D" parent="." unique_id=331223038]
 
@@ -38,3 +46,9 @@ position = Vector2(152, 0)
 
 [node name="BottomDoor" parent="Doors" unique_id=978954223 instance=ExtResource("7_5pk5y")]
 position = Vector2(152, 168)
+
+[node name="ItemSpawn" type="Marker2D" parent="." unique_id=1900917738]
+position = Vector2(16, 56)
+
+[node name="ItemSpawn2" type="Marker2D" parent="." unique_id=2133671552]
+position = Vector2(168, 64)

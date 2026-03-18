@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://d2fw4xmhtrjsr" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Script" uid="uid://bcgbs6i3747my" path="res://scripts/attack_box.gd" id="3_qhqgy"]
 [ext_resource type="Script" uid="uid://bhijbsblfd25t" path="res://scripts/health_box.gd" id="4_dqkch"]
+[ext_resource type="Texture2D" uid="uid://dac5fspfc564m" path="res://assets/tiles/tileset.png" id="4_qlg0r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8vuu"]
 size = Vector2(4, 7)
@@ -90,13 +91,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
 size = Vector2(12, 3)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_qhqgy"]
-frequency = 0.7017
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dqkch"]
-width = 12
-height = 3
-noise = SubResource("FastNoiseLite_qhqgy")
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4r1p"]
+atlas = ExtResource("4_qlg0r")
+region = Rect2(48, 16, 12, 3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
 size = Vector2(4, 7)
@@ -130,8 +127,8 @@ shape = SubResource("RectangleShape2D_g2els")
 debug_color = Color(0.70196074, 0.041130513, 0, 0.41960785)
 
 [node name="AttackVisual" type="Sprite2D" parent="AttackBox" unique_id=1082850113]
-position = Vector2(6, 0)
-texture = SubResource("NoiseTexture2D_dqkch")
+position = Vector2(7, 0)
+texture = SubResource("AtlasTexture_y4r1p")
 
 [node name="HealthBox" type="Area2D" parent="." unique_id=1997602720]
 position = Vector2(4, 4.5)

@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d1315pgbrtaop"]
+
+[ext_resource type="Texture2D" uid="uid://dac5fspfc564m" path="res://assets/tiles/tileset.png" id="1_beb24"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7a5tq"]
+atlas = ExtResource("1_beb24")
+region = Rect2(48, 48, 8, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bk0hq"]
+atlas = ExtResource("1_beb24")
+region = Rect2(56, 48, 8, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hw5v3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7a5tq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bk0hq")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.5
+}]
+
+[node name="A" type="AnimatedSprite2D" unique_id=1783518361]
+sprite_frames = SubResource("SpriteFrames_hw5v3")
+animation = &"idle"
+autoplay = "idle"
+frame = 1
+frame_progress = 0.55273306

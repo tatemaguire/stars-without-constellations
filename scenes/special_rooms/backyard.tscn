@@ -2,13 +2,19 @@
 
 [ext_resource type="TileSet" uid="uid://cgo73n7quow6s" path="res://assets/tiles/tileset.tres" id="1_1eh1m"]
 [ext_resource type="Script" uid="uid://owkmca74i5mf" path="res://scripts/multicolor_terrain.gd" id="2_6xxg1"]
+[ext_resource type="PackedScene" uid="uid://d1315pgbrtaop" path="res://scenes/npc/A.tscn" id="3_6xxg1"]
+[ext_resource type="FontFile" uid="uid://ba4pbhi0ykyul" path="res://assets/fonts/Kenney Pixel.ttf" id="3_noyvb"]
 
-[sub_resource type="SystemFont" id="SystemFont_1eh1m"]
-font_names = PackedStringArray("Monospace")
+[sub_resource type="GDScript" id="GDScript_noyvb"]
+resource_name = "random_anim_offset"
+script/source = "extends Node2D
 
-[sub_resource type="LabelSettings" id="LabelSettings_6xxg1"]
-font = SubResource("SystemFont_1eh1m")
-font_size = 24
+func _ready() -> void:
+	for person in get_children():
+		if person is AnimatedSprite2D:
+			person.set_frame_and_progress(randi_range(0, 1), randf_range(0.0, 1.0))
+			person.speed_scale = randf_range(0.5, 1.5)
+"
 
 [node name="Backyard" type="Node2D" unique_id=149712948]
 
@@ -23,12 +29,92 @@ tile_map_data = PackedByteArray("AAAAABQAAAACAAEAAAAAABUAAAAAAAEAAAAAABYAAAAAAAE
 tile_set = ExtResource("1_1eh1m")
 script = ExtResource("2_6xxg1")
 
-[node name="Label" type="Label" parent="." unique_id=1801499779]
-offset_left = 40.0
-offset_top = 72.0
-offset_right = 285.0
-offset_bottom = 97.0
-text = "YOU NEED TWO KEYS"
-label_settings = SubResource("LabelSettings_6xxg1")
+[node name="A" parent="." unique_id=1783518361 instance=ExtResource("3_6xxg1")]
+position = Vector2(224, 144)
+scale = Vector2(-1, 1)
+
+[node name="A2" parent="." unique_id=1634412271 instance=ExtResource("3_6xxg1")]
+modulate = Color(0.60546875, 0.49113035, 0.39024353, 1)
+position = Vector2(240, 144)
+frame = 0
+frame_progress = 0.0
+
+[node name="Crowd" type="Node2D" parent="." unique_id=1266748949]
+position = Vector2(152, 144)
+script = SubResource("GDScript_noyvb")
+
+[node name="A3" parent="Crowd" unique_id=1822563121 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-24, 8)
+frame = 0
+frame_progress = 0.0
+
+[node name="A4" parent="Crowd" unique_id=975654652 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-8, 8)
+frame = 0
+frame_progress = 0.0
+
+[node name="A5" parent="Crowd" unique_id=394943183 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-13, 8)
+frame = 0
+frame_progress = 0.0
+
+[node name="A6" parent="Crowd" unique_id=697058766 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-31, 9)
+frame = 0
+frame_progress = 0.0
+
+[node name="A7" parent="Crowd" unique_id=1023147552 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-2, 10)
+frame = 0
+frame_progress = 0.0
+
+[node name="A8" parent="Crowd" unique_id=1306686545 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-45, 8)
+frame = 0
+frame_progress = 0.0
+
+[node name="A9" parent="Crowd" unique_id=210082943 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-51, 9)
+frame = 0
+frame_progress = 0.0
+
+[node name="A10" parent="Crowd" unique_id=1819125057 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-55, 8)
+frame = 0
+frame_progress = 0.0
+
+[node name="A11" parent="Crowd" unique_id=508648393 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-63, 12)
+frame = 0
+frame_progress = 0.0
+
+[node name="A12" parent="Crowd" unique_id=669725751 instance=ExtResource("3_6xxg1")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-72, 13)
+frame = 0
+frame_progress = 0.0
+
+[node name="Text" type="Label" parent="." unique_id=116644920]
+offset_left = 168.0
+offset_top = 64.0
+offset_right = 294.0
+offset_bottom = 128.0
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("3_noyvb")
+theme_override_font_sizes/font_size = 16
+text = "We can't start the show 
+without our instruments. 
+Help us -- find them!!!!!"
 horizontal_alignment = 1
 vertical_alignment = 1

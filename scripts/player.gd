@@ -3,6 +3,8 @@ extends CharacterBody2D
 
 enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 
+## Array containing the names of the items the player has
+@export var inventory: Array[String] = ["Sword"]
 
 @export_group("Movement")
 ## Max player speed 
@@ -110,10 +112,7 @@ func _check_state_transitions():
 				_transition_state(States.FALLING)
 		States.FALLING:
 			if is_on_floor():
-				if Input.is_action_pressed("Jump"):
-					_transition_state(States.JUMPING)
-				else:
-					_transition_state(States.GROUND)
+				_transition_state(States.GROUND)
 		States.COYOTE:
 			if Input.is_action_just_pressed("Jump"):
 				_transition_state(States.JUMPING)
@@ -178,7 +177,7 @@ func _jump_down() -> void:
 
 ## Parses input to activate AttackBox for attack_time
 func _update_attack(delta: float) -> void:
-	if current_state == States.DEAD:
+	if current_state == States.DEAD or "Sword" not in inventory:
 		return
 	# Check that attack is being made
 	if Input.is_action_just_pressed("Attack") and not attacking:

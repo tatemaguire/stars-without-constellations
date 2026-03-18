@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dv1wua0mb6w41" path="res://scripts/title_screen.gd" id="1_aqpy5"]
 [ext_resource type="Texture2D" uid="uid://b4jmru77ix8g" path="res://assets/swirl_bg.png" id="1_eb34j"]
+[ext_resource type="FontFile" uid="uid://fwv4h3ufgpm2" path="res://assets/fonts/Kenney Pixel Square.ttf" id="3_a4ium"]
+[ext_resource type="FontFile" uid="uid://ba4pbhi0ykyul" path="res://assets/fonts/Kenney Pixel.ttf" id="3_w8uqo"]
 
 [node name="TitleScreen" type="Control" unique_id=2040764020]
 layout_mode = 3
@@ -21,57 +23,50 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_eb34j")
 
+[node name="BackgroundRect" type="ColorRect" parent="." unique_id=901625292]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.5058824)
+
 [node name="Title" type="Label" parent="." unique_id=1939990906]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -110.0
-offset_top = -28.0
-offset_right = 110.0
-offset_bottom = -5.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_top = 35.0
+offset_right = 320.0
+offset_bottom = 107.0
 size_flags_horizontal = 4
-text = "Stars Without Constellations"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = ExtResource("3_a4ium")
+theme_override_font_sizes/font_size = 24
+text = "Stars Without
+Constellations"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="WakeUp" type="Label" parent="." unique_id=1053935987]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -110.0
-offset_top = 6.0
-offset_right = 110.0
-offset_bottom = 29.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_top = 110.0
+offset_right = 320.0
+offset_bottom = 133.0
 size_flags_horizontal = 4
-text = "Wake Up"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = ExtResource("3_w8uqo")
+theme_override_font_sizes/font_size = 16
+text = "Press Z to Wake Up"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PressZ" type="Label" parent="." unique_id=1035838552]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = 25.0
-offset_right = 20.0
-offset_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 8
-text = "Press Z"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="TransitionRect" type="ColorRect" parent="." unique_id=1083362981]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0)
