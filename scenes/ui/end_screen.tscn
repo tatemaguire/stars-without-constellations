@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://c4rvtwwciurss"]
+
+[ext_resource type="Script" uid="uid://dv1wua0mb6w41" path="res://scripts/title_screen.gd" id="1_53v5j"]
+[ext_resource type="Texture2D" uid="uid://b4jmru77ix8g" path="res://assets/swirl_bg.png" id="2_e4cmn"]
+[ext_resource type="FontFile" uid="uid://fwv4h3ufgpm2" path="res://assets/fonts/Kenney Pixel Square.ttf" id="3_dlhjq"]
+[ext_resource type="FontFile" uid="uid://ba4pbhi0ykyul" path="res://assets/fonts/Kenney Pixel.ttf" id="4_eok5x"]
+
+[node name="EndScreen" type="Control" unique_id=2040764020]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_53v5j")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2118772844]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_e4cmn")
+
+[node name="BackgroundRect" type="ColorRect" parent="." unique_id=901625292]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.7019608)
+
+[node name="TransitionRect" type="ColorRect" parent="." unique_id=1083362981]
+top_level = true
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0)
+
+[node name="Title" type="Label" parent="." unique_id=1939990906]
+layout_mode = 0
+offset_top = 35.0
+offset_right = 320.0
+offset_bottom = 107.0
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = ExtResource("3_dlhjq")
+theme_override_font_sizes/font_size = 24
+text = "The end"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Credits" type="Label" parent="." unique_id=121171315]
+layout_mode = 0
+offset_top = 96.0
+offset_right = 320.0
+offset_bottom = 138.0
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = ExtResource("4_eok5x")
+theme_override_font_sizes/font_size = 16
+text = "Credits:
+Programming, Design, Art, Sound: Tate Maguire
+Titlescreen Background: Jeremy Miller"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WakeUp" type="Label" parent="." unique_id=1053935987]
+layout_mode = 0
+offset_top = 152.0
+offset_right = 320.0
+offset_bottom = 175.0
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 8
+theme_override_fonts/font = ExtResource("4_eok5x")
+theme_override_font_sizes/font_size = 16
+text = "Press Z to Wake Up"
+horizontal_alignment = 1
+vertical_alignment = 1

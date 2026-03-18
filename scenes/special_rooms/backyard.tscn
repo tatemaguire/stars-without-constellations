@@ -16,6 +16,19 @@ func _ready() -> void:
 			person.speed_scale = randf_range(0.5, 1.5)
 "
 
+[sub_resource type="GDScript" id="GDScript_ijwvq"]
+resource_name = "WinCheck"
+script/source = "extends Area2D
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is PlayerCharacter:
+		if \"Drums\" in body.inventory and \"Synth\" in body.inventory:
+			SceneTransitions.end_game()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_noyvb"]
+size = Vector2(80, 24)
+
 [node name="Backyard" type="Node2D" unique_id=149712948]
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=382964761]
@@ -128,3 +141,13 @@ without our instruments.
 Help us -- find them!!!!!"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="WinBox" type="Area2D" parent="." unique_id=1477402831]
+position = Vector2(224, 136)
+collision_layer = 0
+collision_mask = 2
+script = SubResource("GDScript_ijwvq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WinBox" unique_id=684068428]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_noyvb")

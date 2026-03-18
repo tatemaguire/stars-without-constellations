@@ -43,6 +43,5 @@ func kill() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is CollisionObject2D and body.get_collision_mask_value(5):
-		print("DAMAGE")
+	if body.name == "TheIsolation":
 		take_damage(100, Vector2.ZERO)
