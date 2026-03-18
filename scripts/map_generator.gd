@@ -106,7 +106,7 @@ func generate_map() -> void:
 	
 	# Set basic rooms to be different colors
 	if not Engine.is_editor_hint():
-		var world_terrain_color = MulticolorTerrain.random_terrain_color(2, 4)
+		var world_terrain_color = MulticolorTerrain.random_terrain_color()
 		for room in get_children():
 			if room is BasicRoom:
 				room.set_terrain_color(world_terrain_color)

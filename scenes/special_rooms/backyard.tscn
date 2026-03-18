@@ -22,6 +22,7 @@ script/source = "extends Area2D
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is PlayerCharacter:
+		print(\"HIII\")
 		if \"Drums\" in body.inventory and \"Synth\" in body.inventory:
 			SceneTransitions.end_game()
 "
@@ -151,3 +152,5 @@ script = SubResource("GDScript_ijwvq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WinBox" unique_id=684068428]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_noyvb")
+
+[connection signal="body_entered" from="WinBox" to="WinBox" method="_on_body_entered"]
