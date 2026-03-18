@@ -133,8 +133,7 @@ texture = SubResource("AtlasTexture_y4r1p")
 [node name="HealthBox" type="Area2D" parent="." unique_id=1997602720]
 position = Vector2(4, 4.5)
 collision_layer = 2
-collision_mask = 0
-monitoring = false
+collision_mask = 16
 script = ExtResource("4_dqkch")
 initial_hp = 4
 metadata/_custom_type_script = "uid://bhijbsblfd25t"
@@ -143,3 +142,4 @@ metadata/_custom_type_script = "uid://bhijbsblfd25t"
 shape = SubResource("RectangleShape2D_qlg0r")
 
 [connection signal="area_entered" from="AttackBox" to="AttackBox" method="_on_area_entered"]
+[connection signal="body_entered" from="HealthBox" to="HealthBox" method="_on_body_entered"]
