@@ -8,6 +8,7 @@
 script = ExtResource("1_01wlk")
 
 [node name="Closed" type="TileMapLayer" parent="." unique_id=1761041285]
+visible = false
 tile_map_data = PackedByteArray(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
 tile_set = ExtResource("2_1fhia")
 collision_enabled = false

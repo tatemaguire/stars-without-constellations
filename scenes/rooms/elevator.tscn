@@ -24,12 +24,6 @@ script = ExtResource("2_76xem")
 
 [node name="Enemies" type="Node2D" parent="." unique_id=762616864]
 
-[node name="Enemy" parent="Enemies" unique_id=1555676778 instance=ExtResource("4_d7duy")]
-position = Vector2(24, 152)
-
-[node name="Enemy2" parent="Enemies" unique_id=730763595 instance=ExtResource("4_d7duy")]
-position = Vector2(64, 152)
-
 [node name="Enemy3" parent="Enemies" unique_id=1955539315 instance=ExtResource("4_d7duy")]
 position = Vector2(256, 136)
 

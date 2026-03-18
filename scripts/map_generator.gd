@@ -106,9 +106,10 @@ func generate_map() -> void:
 	
 	# Set basic rooms to be different colors
 	if not Engine.is_editor_hint():
+		var world_terrain_color = MulticolorTerrain.random_terrain_color(2, 4)
 		for room in get_children():
 			if room is BasicRoom:
-				room.set_terrain_color(MulticolorTerrain.random_terrain_color(2, 4))
+				room.set_terrain_color(world_terrain_color)
 
 
 ## Frees all children of the map node
@@ -195,7 +196,6 @@ func _fill_map_from_grid() -> void:
 	add_child(entrance_room)
 	# Create Backyard
 	var backyard_room: Node2D = backyard_scene.instantiate()
-	#TODO: messy reference to last-created room
 	backyard_room.position = backyard_coord * room_size
 	add_child(backyard_room)
 
@@ -221,7 +221,7 @@ func _fill_map_with_items() -> void:
 		add_child(item_pickup)
 		# Choose random item spawn location
 		var i := randi_range(0, item_spawns.size()-1)
-		var spawn: Marker2D = item_spawns[i]
+		var spawn: Marker2D = item_spawns.pop_at(i)
 		item_pickup.global_position = spawn.global_position
 
 
@@ -249,8 +249,8 @@ func _set_door_states_using_grid(room: BasicRoom, room_pos: Vector2i) -> void:
 
 # Check if coordinate in map bounds
 func _in_map_bounds(coord: Vector2i) -> bool:
-	return (coord.x >= 0 and coord.x < map_size.x 
-			and coord.y >= 0 and coord.y < map_size.y)
+	var bounds: Rect2i = Rect2i(Vector2i.ZERO, map_size)
+	return bounds.has_point(coord)
 		
 
 # Prints _map_grid
