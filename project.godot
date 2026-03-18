@@ -29,6 +29,11 @@ window/size/window_height_override=1280
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 
+[editor]
+
+movie_writer/movie_file="/Users/tatemaguire/Desktop/swc.avi"
+movie_writer/fps=30
+
 [editor_plugins]
 
 enabled=PackedStringArray()
@@ -95,6 +100,7 @@ Down={
 2d_physics/layer_1="Walls"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Pickups"
 
 [physics]
 

@@ -24,6 +24,7 @@ position = Vector2(56, 144)
 
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_hdecc")]
 position = Vector2(112, 96)
+inventory = Array[String](["Sword"])
 
 [node name="Enemy" parent="." unique_id=1764343306 instance=ExtResource("4_msile")]
 position = Vector2(128, 152)

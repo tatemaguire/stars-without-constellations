@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dx7klrohq53gv"]
+
+[ext_resource type="Texture2D" uid="uid://dac5fspfc564m" path="res://assets/tiles/tileset.png" id="1_lrgv0"]
+[ext_resource type="Script" uid="uid://r2u8n4ta7mru" path="res://scripts/item_resource.gd" id="2_cbsb6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_choun"]
+atlas = ExtResource("1_lrgv0")
+region = Rect2(48, 24, 8, 8)
+
+[resource]
+script = ExtResource("2_cbsb6")
+name = "Sword"
+icon = SubResource("AtlasTexture_choun")
+metadata/_custom_type_script = "uid://r2u8n4ta7mru"

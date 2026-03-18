@@ -4,7 +4,7 @@ extends CharacterBody2D
 enum States {GROUND, JUMPING, FALLING, COYOTE, DEAD}
 
 ## Array containing the names of the items the player has
-@export var inventory: Array[String] = ["Sword"]
+@export var inventory: Array[String] = []
 
 @export_group("Movement")
 ## Max player speed 
@@ -177,10 +177,10 @@ func _jump_down() -> void:
 
 ## Parses input to activate AttackBox for attack_time
 func _update_attack(delta: float) -> void:
-	if current_state == States.DEAD or "Sword" not in inventory:
+	if current_state == States.DEAD:
 		return
 	# Check that attack is being made
-	if Input.is_action_just_pressed("Attack") and not attacking:
+	if Input.is_action_just_pressed("Attack") and not attacking and "Sword" in inventory:
 		remaining_attack_time = attack_time
 		attacking = true
 	
@@ -214,3 +214,10 @@ func set_facing_left(value: bool) -> void:
 	$AnimatedSprite2D.flip_h = value
 	$AttackBox.position.x = 1 if value else 7
 	$AttackBox.scale.x = -1 if value else 1
+
+
+## Adds item to player's inventory
+## Returns true if successful
+func pickup_item(item: Item) -> bool:
+	inventory.append(item.name)
+	return true

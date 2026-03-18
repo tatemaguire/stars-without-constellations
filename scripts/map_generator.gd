@@ -10,6 +10,8 @@ extends Node2D
 @export var backyard_scene: PackedScene
 ## Filler scene reference
 @export var filler_scene: PackedScene
+## Item Pickup scene reference
+@export var item_pickup_scene: PackedScene
 
 @export_category("Map Generation")
 ## Generate map in-editor for debugging
@@ -100,6 +102,7 @@ func generate_map() -> void:
 	
 	clear_map()
 	_fill_map_from_grid()
+	_fill_map_with_items()
 	
 	# Set basic rooms to be different colors
 	if not Engine.is_editor_hint():
@@ -195,6 +198,32 @@ func _fill_map_from_grid() -> void:
 	#TODO: messy reference to last-created room
 	backyard_room.position = backyard_coord * room_size
 	add_child(backyard_room)
+
+
+## Randomly place all items at the ItemSpawn locations
+func _fill_map_with_items() -> void:
+	if Engine.is_editor_hint():
+		return
+		
+	# Fill item_spawns with all ItemSpawn markers throughout the world
+	var item_spawns: Array[Marker2D]
+	for room in get_children():
+		if room is BasicRoom:
+			for child in room.get_children():
+				if "ItemSpawn" in child.name:
+					item_spawns.append(child)
+	
+	# Place all items in random locations
+	for item in items:
+		# Instantiate the pickup
+		var item_pickup: ItemPickup = item_pickup_scene.instantiate()
+		item_pickup.item_data = item
+		add_child(item_pickup)
+		# Choose random item spawn location
+		var i := randi_range(0, item_spawns.size()-1)
+		var spawn: Marker2D = item_spawns[i]
+		item_pickup.global_position = spawn.global_position
+
 
 
 func _set_door_states_using_grid(room: BasicRoom, room_pos: Vector2i) -> void:

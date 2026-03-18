@@ -49,3 +49,6 @@ position = Vector2(152, 0)
 
 [node name="BottomDoor" parent="Doors" unique_id=1010802267 instance=ExtResource("5_d7duy")]
 position = Vector2(152, 168)
+
+[node name="ItemSpawn" type="Marker2D" parent="." unique_id=1699213014]
+position = Vector2(120, 88)

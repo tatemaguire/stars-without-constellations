@@ -5,40 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://byka7pxs4clfd" path="res://scenes/player.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://opv6dabjh2ox" path="res://scripts/map_generator.gd" id="3_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cobv1nfaakuob" path="res://scenes/special_rooms/solid_terrain.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://q23mbfqeba2m" path="res://scenes/item_pickup.tscn" id="7_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://muailbertva2" path="res://scenes/ui/hud.tscn" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://r2u8n4ta7mru" path="res://scripts/item_resource.gd" id="7_tipki"]
-[ext_resource type="Texture2D" uid="uid://dac5fspfc564m" path="res://assets/tiles/tileset.png" id="8_85g3d"]
 [ext_resource type="PackedScene" uid="uid://cosnrhngvps5m" path="res://scenes/special_rooms/backyard.tscn" id="8_tipki"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_choun"]
-atlas = ExtResource("8_85g3d")
-region = Rect2(48, 24, 8, 8)
-
-[sub_resource type="Resource" id="Resource_85g3d"]
-script = ExtResource("7_tipki")
-name = "Sword"
-icon = SubResource("AtlasTexture_choun")
-metadata/_custom_type_script = "uid://r2u8n4ta7mru"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_85g3d"]
-atlas = ExtResource("8_85g3d")
-region = Rect2(48, 40, 8, 8)
-
-[sub_resource type="Resource" id="Resource_choun"]
-script = ExtResource("7_tipki")
-name = "Drums"
-icon = SubResource("AtlasTexture_85g3d")
-metadata/_custom_type_script = "uid://r2u8n4ta7mru"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ya4ey"]
-atlas = ExtResource("8_85g3d")
-region = Rect2(56, 40, 8, 8)
-
-[sub_resource type="Resource" id="Resource_eb6dy"]
-script = ExtResource("7_tipki")
-name = "Synth"
-icon = SubResource("AtlasTexture_ya4ey")
-metadata/_custom_type_script = "uid://r2u8n4ta7mru"
+[ext_resource type="Resource" uid="uid://dx7klrohq53gv" path="res://assets/item_data/sword.tres" id="8_ya4ey"]
+[ext_resource type="Resource" uid="uid://br7lgdxrsgo2l" path="res://assets/item_data/drums.tres" id="9_eb6dy"]
+[ext_resource type="Resource" uid="uid://xtij6287xiu8" path="res://assets/item_data/synth.tres" id="10_trceg"]
 
 [node name="main" type="Node2D" unique_id=1027586260]
 
@@ -48,7 +21,6 @@ script = ExtResource("3_jyhfs")
 _player_character = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("3_sugp2")]
-inventory = Array[String]([])
 
 [node name="Map" type="Node2D" parent="." unique_id=2073551701]
 script = ExtResource("3_tefeu")
@@ -56,9 +28,10 @@ room_directory = "res://scenes/rooms"
 entrance_scene = ExtResource("1_sugp2")
 backyard_scene = ExtResource("8_tipki")
 filler_scene = ExtResource("5_tbgi4")
+item_pickup_scene = ExtResource("7_eb6dy")
 map_size = Vector2i(3, 3)
-main_path_length = 7
-items = Array[ExtResource("7_tipki")]([SubResource("Resource_85g3d"), SubResource("Resource_choun"), SubResource("Resource_eb6dy")])
+main_path_length = 4
+items = Array[ExtResource("7_tipki")]([ExtResource("8_ya4ey"), ExtResource("9_eb6dy"), ExtResource("10_trceg")])
 
 [node name="HUD" parent="." unique_id=754128567 node_paths=PackedStringArray("player_character") instance=ExtResource("7_o6xl0")]
 player_character = NodePath("../Player")
