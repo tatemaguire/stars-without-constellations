@@ -10,4 +10,4 @@ func _on_player_killed() -> void:
 	get_tree().create_timer(1).timeout.connect(load_main)
 
 func end_game() -> void:
-	get_tree().change_scene_to_packed(end_screen)
+	get_tree().change_scene_to_packed.call_deferred(end_screen)

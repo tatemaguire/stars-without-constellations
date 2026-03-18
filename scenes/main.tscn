@@ -12,6 +12,32 @@
 [ext_resource type="Resource" uid="uid://dx7klrohq53gv" path="res://assets/item_data/sword.tres" id="8_ya4ey"]
 [ext_resource type="Resource" uid="uid://br7lgdxrsgo2l" path="res://assets/item_data/drums.tres" id="9_eb6dy"]
 [ext_resource type="Resource" uid="uid://xtij6287xiu8" path="res://assets/item_data/synth.tres" id="10_trceg"]
+[ext_resource type="AudioStream" uid="uid://b160ehxqk3hwp" path="res://assets/audio/exploration_intro.wav" id="13_a8y0u"]
+[ext_resource type="AudioStream" uid="uid://hx2lpoisywe7" path="res://assets/audio/exploration_loop.wav" id="14_jkv2x"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_eb6dy"]
+clip_count = 2
+clip_0/name = &"intro"
+clip_0/stream = ExtResource("13_a8y0u")
+clip_0/auto_advance = 1
+clip_0/next_clip = 1
+clip_1/name = &"loop"
+clip_1/stream = ExtResource("14_jkv2x")
+clip_1/auto_advance = 0
+_transitions = {
+Vector2i(0, 0): {
+"fade_beats": 0.0,
+"fade_mode": 0,
+"from_time": 3,
+"to_time": 1
+},
+Vector2i(1, 1): {
+"fade_beats": 0.0,
+"fade_mode": 0,
+"from_time": 3,
+"to_time": 1
+}
+}
 
 [node name="main" type="Node2D" unique_id=1027586260]
 
@@ -35,3 +61,7 @@ items = Array[ExtResource("7_tipki")]([ExtResource("8_ya4ey"), ExtResource("9_eb
 
 [node name="HUD" parent="." unique_id=754128567 node_paths=PackedStringArray("player_character") instance=ExtResource("7_o6xl0")]
 player_character = NodePath("../Player")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1430103301]
+stream = SubResource("AudioStreamInteractive_eb6dy")
+autoplay = true

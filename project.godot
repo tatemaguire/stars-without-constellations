@@ -14,7 +14,6 @@ config/name="Stars Without Constellations"
 run/main_scene="uid://dte6ref40nktf"
 run/print_header=false
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://assets/icon.svg"
 
 [autoload]
 
