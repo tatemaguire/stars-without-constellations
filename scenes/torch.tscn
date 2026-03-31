@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dynja0n6fby65"]
+
+[ext_resource type="Texture2D" uid="uid://dac5fspfc564m" path="res://assets/tiles/tileset.png" id="1_d4v33"]
+[ext_resource type="Shader" uid="uid://bv2qx03iipq2q" path="res://scripts/shaders/torch.gdshader" id="2_my26j"]
+[ext_resource type="Texture2D" uid="uid://c1sm2hgjtay3o" path="res://assets/torch_light_texture.tres" id="3_o2tjn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o2tjn"]
+shader = ExtResource("2_my26j")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_d4v33"]
+frequency = 0.0388
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_d4v33"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_d4v33")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_my26j"]
+shader = ExtResource("2_my26j")
+
+[node name="Torch" type="Sprite2D" unique_id=882543052]
+texture = ExtResource("1_d4v33")
+centered = false
+region_enabled = true
+region_rect = Rect2(48, 32, 8, 8)
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=421462286]
+visible = false
+material = SubResource("ShaderMaterial_o2tjn")
+position = Vector2(4, 4)
+scale = Vector2(1.2499999, 1.2499999)
+texture = SubResource("NoiseTexture2D_d4v33")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1375111682]
+material = SubResource("ShaderMaterial_my26j")
+position = Vector2(4, 4)
+texture = ExtResource("3_o2tjn")

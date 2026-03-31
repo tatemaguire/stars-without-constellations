@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://q23mbfqeba2m" path="res://scenes/item_pickup.tscn" id="3_mv0ph"]
 [ext_resource type="PackedScene" uid="uid://byka7pxs4clfd" path="res://scenes/player.tscn" id="4_b64li"]
 [ext_resource type="Resource" uid="uid://dx7klrohq53gv" path="res://assets/item_data/sword.tres" id="4_mv0ph"]
+[ext_resource type="PackedScene" uid="uid://dynja0n6fby65" path="res://scenes/torch.tscn" id="6_paijg"]
 
 [node name="PickupTest" type="Node2D" unique_id=2126006696]
 
@@ -21,9 +22,10 @@ script = ExtResource("2_b64li")
 
 [node name="ItemPickup" parent="." unique_id=160237721 instance=ExtResource("3_mv0ph")]
 position = Vector2(112, 144)
-collision_mask = 2
-monitoring = true
 item_data = ExtResource("4_mv0ph")
 
 [node name="Player" parent="." unique_id=1774403905 instance=ExtResource("4_b64li")]
 position = Vector2(40, 136)
+
+[node name="Torch" parent="." unique_id=882543052 instance=ExtResource("6_paijg")]
+position = Vector2(192, 136)
